@@ -98,7 +98,7 @@
     <!-- 상단 시스템 로드 마키 바 (Retro Ticker) -->
     <div class="w-full bg-[#1A1D20] text-[#52D3A2] py-2 px-4 text-xs md:text-sm overflow-hidden whitespace-nowrap border-b-4 border-[#1A1D20]">
         <div class="inline-block animate-[marquee_25s_linear_infinite] uppercase tracking-wider">
-            🚨 SYSTEM LOADING: 100% REAL DAYIN PICK CURATION ACTIVATED... PRESS START TO PLAY... HAVE A SWEET DAY! 🍰 🎵 🌳 👾
+            🚨 SYSTEM LOADING: 100% REAL DAIN PICK CURATION ACTIVATED... PRESS START TO PLAY... HAVE A SWEET DAY! 🍰 🎵 🌳 👾
         </div>
     </div>
     
@@ -233,7 +233,7 @@
                     </div>
                     <h3 class="text-xl font-bold">내 기분 맞춰 고르기 기믹</h3>
                     <p class="text-sm text-gray-600 leading-relaxed">
-                        틀에 박힌 추천은 거부합니다! 현재 처한 일상의 온도나 기분 스테이지를 세팅해 최적화 가챠를 작동시킬 수 있습니다.
+                        틀에 박힌 추천은 거부합니다! 유저가 현재 처한 일상의 온도나 기분 스테이지를 세팅해 최적화 가챠를 작동시킬 수 있습니다.
                     </p>
                 </div>
 
@@ -248,7 +248,7 @@
             <div class="text-center space-y-2 mb-8">
                 <span class="text-emerald-700 text-xs tracking-wider uppercase font-bold">STAGE PLAY</span>
                 <h2 class="text-2xl md:text-4xl font-black">나만을 위한 취향 뽑기!</h2>
-                <p class="text-xs md:text-sm text-gray-500">원하는 분위기 스테이지를 선택하면 가챠 슬롯이 해제됩니다.</p>
+                <p class="text-xs md:text-sm text-gray-500">원하는 분위기 스테이지를 선택하면 가챠 슬лот이 해제됩니다.</p>
             </div>
 
             <!-- 아케이드 캐비닛 머신 형태 -->
@@ -258,7 +258,7 @@
                 <div class="bg-[#1A1D20] text-[#52D3A2] p-4 mb-6 pixel-border-sm flex justify-between items-center scanlines">
                     <div class="flex items-center gap-2">
                         <span class="w-3 h-3 bg-red-500 rounded-full animate-pulse"></span>
-                        <span class="text-sm md:text-lg font-bold tracking-widest text-shadow">DAYIN TASTE ARCADE v1.2</span>
+                        <span class="text-sm md:text-lg font-bold tracking-widest text-shadow">DAIN TASTE ARCADE v1.2</span>
                     </div>
                     <span class="text-xs bg-[#52D3A2] text-black px-2 py-0.5 font-bold">ONLINE</span>
                 </div>
@@ -339,7 +339,7 @@
 
                     <!-- 스크린 하단 바 -->
                     <div class="border-t border-[#52D3A2] pt-2 text-[10px] text-gray-400 flex justify-between">
-                        <span>DAYIN Curation System v1.0</span>
+                        <span>DAIN Curation System v1.0</span>
                         <span class="animate-blink">▉ READY TO LOAD</span>
                     </div>
 
@@ -350,28 +350,28 @@
                     <p class="text-xs text-gray-300 uppercase tracking-widest text-center font-bold">▲ SELECT YOUR SITUATION STAGE ▲</p>
                     
                     <div class="grid grid-cols-2 gap-3" id="stageButtonGroup">
-                        <button onclick="selectStage('rest')" class="stage-btn pixel-btn bg-[#FAF8F5] hover:bg-[#A7F3D0] p-3 text-xs md:text-sm text-left flex items-center gap-2">
+                        <button onclick="selectStage('rest', event)" class="stage-btn pixel-btn bg-[#FAF8F5] hover:bg-[#A7F3D0] p-3 text-xs md:text-sm text-left flex items-center gap-2">
                             <span>☀️</span>
                             <div class="text-left">
                                 <div class="font-bold">나른한 오후</div>
                                 <div class="text-[10px] text-gray-500">한적하게 여유 만끽할 때</div>
                             </div>
                         </button>
-                        <button onclick="selectStage('rain')" class="stage-btn pixel-btn bg-[#FAF8F5] hover:bg-[#A7F3D0] p-3 text-xs md:text-sm text-left flex items-center gap-2">
+                        <button onclick="selectStage('rain', event)" class="stage-btn pixel-btn bg-[#FAF8F5] hover:bg-[#A7F3D0] p-3 text-xs md:text-sm text-left flex items-center gap-2">
                             <span>☔</span>
                             <div class="text-left">
                                 <div class="font-bold">비 오는 고요한 밤</div>
                                 <div class="text-[10px] text-gray-500">차분하고 센치한 분위기</div>
                             </div>
                         </button>
-                        <button onclick="selectStage('focus')" class="stage-btn pixel-btn bg-[#FAF8F5] hover:bg-[#A7F3D0] p-3 text-xs md:text-sm text-left flex items-center gap-2">
+                        <button onclick="selectStage('focus', event)" class="stage-btn pixel-btn bg-[#FAF8F5] hover:bg-[#A7F3D0] p-3 text-xs md:text-sm text-left flex items-center gap-2">
                             <span>🔥</span>
                             <div class="text-left">
                                 <div class="font-bold">몰입 & 열공 모드</div>
                                 <div class="text-[10px] text-gray-500">집중력 극대화가 필요할 때</div>
                             </div>
                         </button>
-                        <button onclick="selectStage('depressed')" class="stage-btn pixel-btn bg-[#FAF8F5] hover:bg-[#A7F3D0] p-3 text-xs md:text-sm text-left flex items-center gap-2">
+                        <button onclick="selectStage('depressed', event)" class="stage-btn pixel-btn bg-[#FAF8F5] hover:bg-[#A7F3D0] p-3 text-xs md:text-sm text-left flex items-center gap-2">
                             <span>🌧️</span>
                             <div class="text-left">
                                 <div class="font-bold">당 보충이 고플 때</div>
@@ -393,13 +393,67 @@
         </div>
     </section>
 
+    <!-- 4.5 REALTIME RETRO GUESTBOOK SECTION -->
+    <section id="guestbook-section" class="py-16 px-4 bg-[#E6F4EE] border-t-4 border-b-4 border-[#1A1D20]">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center space-y-2 mb-10">
+                <span class="text-emerald-700 text-xs tracking-wider uppercase font-bold">COMMUNITY</span>
+                <h2 class="text-2xl md:text-4xl font-black">👾 아케이드 방명록 👾</h2>
+                <p class="text-xs md:text-sm text-gray-600">다마고치 오락실에 다녀간 흔적을 남겨주세요!</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+                
+                <!-- 방명록 등록 폼 (왼쪽 5칸) -->
+                <div class="pixel-border bg-white p-6 md:col-span-5 space-y-4">
+                    <div class="text-sm font-bold border-b-2 border-[#1A1D20] pb-2 text-emerald-700">
+                        🖋️ MESSAGE BOX
+                    </div>
+                    
+                    <div class="space-y-1">
+                        <label class="block text-xs font-bold text-gray-700">닉네임 (NICKNAME)</label>
+                        <input id="guestNickname" type="text" maxlength="15" placeholder="예: 3반 귀염둥이" 
+                               class="w-full p-2.5 text-sm pixel-border-sm focus:outline-none focus:bg-[#FAF8F5]">
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-xs font-bold text-gray-700">한마디 (MESSAGE)</label>
+                        <textarea id="guestMessage" rows="3" maxlength="100" placeholder="다인님에게 전할 포근한 응원이나 인사말을 남겨주세요!" 
+                                  class="w-full p-2.5 text-sm pixel-border-sm focus:outline-none focus:bg-[#FAF8F5] resize-none"></textarea>
+                    </div>
+
+                    <button id="submitGuestbookBtn" onclick="submitGuestbook()" class="w-full pixel-btn bg-[#52D3A2] hover:bg-[#3dbd8c] text-sm font-bold py-3">
+                        🕹️ 방명록 등록하기!
+                    </button>
+                </div>
+
+                <!-- 실시간 방명록 리스트 보드 (오른쪽 7칸) -->
+                <div class="pixel-border bg-[#1A1D20] text-[#52D3A2] p-4 md:col-span-7 scanlines">
+                    <div class="flex justify-between border-b border-emerald-800 pb-2 mb-4 text-xs">
+                        <span>LIVE BOARD FEED</span>
+                        <span id="guestCount" class="animate-pulse">ONLINE SIGNED: 0</span>
+                    </div>
+
+                    <!-- 스크롤 방명록 영역 -->
+                    <div id="guestbookList" class="space-y-3 max-h-[350px] overflow-y-auto pr-2 text-sm text-white">
+                        <!-- 방명록 리스트 동적 로드 예정 -->
+                        <div class="text-center py-10 text-gray-400 text-xs">
+                            방명록 데이터를 로딩 중이거나 첫 메시지를 기다리고 있어요... 🛰️
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
     <!-- 5. RETRO FOOTER -->
     <footer class="bg-[#1A1D20] text-gray-400 py-16 px-4 border-t-4 border-[#1A1D20]">
         <div class="max-w-4xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
             
             <div class="space-y-2 text-center md:text-left">
                 <div class="text-[#52D3A2] text-xl font-black tracking-widest">
-                    👾 DAYIN'S PLAYGROUND 👾
+                    👾 DAIN'S PLAYGROUND 👾
                 </div>
                 <p class="text-xs text-gray-500">본 사이트는 지인과의 친목 및 아이스브레이킹 목적의 비영리 아카이브 공간입니다.</p>
             </div>
@@ -417,7 +471,12 @@
     </footer>
 
     <!-- --- 자바스크립트 로직 영역 --- -->
-    <script>
+    <script type="module">
+        // Firebase Core & Firestore SDK Imports
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, collection, addDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
         // --- 8비트 오디오 합성 엔진 (Web Audio API) ---
         let audioCtx = null;
         let isMuted = false;
@@ -476,7 +535,6 @@
             notes.forEach((freq, idx) => {
                 playBleep(freq, 'triangle', 0.15, idx * 100);
             });
-            // 짜잔! 하는 복고풍 피치밴드 추가
             setTimeout(() => {
                 playBleep(1318.51, 'square', 0.4);
             }, 400);
@@ -535,7 +593,7 @@
         let selectedStageKey = null;
 
         // 스테이지 선택 시 로직
-        function selectStage(stageKey) {
+        function selectStage(stageKey, event) {
             selectedStageKey = stageKey;
             soundSelect();
 
@@ -547,7 +605,9 @@
             });
 
             // 현재 탭 선택 표시
-            event.currentTarget.classList.add('bg-[#52D3A2]', 'text-black');
+            if (event && event.currentTarget) {
+                event.currentTarget.classList.add('bg-[#52D3A2]', 'text-black');
+            }
 
             // 화면 가이드 변경
             const screenPrompt = document.getElementById('screenPrompt');
@@ -681,7 +741,7 @@
             try {
                 const successful = document.execCommand('copy');
                 if (successful) {
-                    showToastNotification("📋 결과 기록이 복사되었습니다! 카톡으로 대화를 건네 보세요!");
+                    showToastNotification("📋 결과 기록이 복사되었습니다! 지인에게 카톡으로 대화를 건네 보세요!");
                 } else {
                     showToastNotification("복사 실패. 수동 복사를 부탁드립니다.");
                 }
@@ -705,6 +765,188 @@
                 setTimeout(() => toast.remove(), 500);
             }, 3500);
         }
+
+        // --- FIREBASE FIRESTORE REALTIME GUESTBOOK INTEGRATION ---
+        let db = null;
+        let auth = null;
+
+        // Firebase Fallback용 가상 인메모리 방명록 데이터 (서버 지연/부재 시 브라우저 내에서 안전하게 작동)
+        let fallbackGuestbook = [
+            { id: "fallback-1", nickname: "아케이드 개발자", text: "방명록 기능이 완성되었습니다! 🎮 첫 번째 리뷰를 달아보세요!", createdAt: { seconds: Math.floor(Date.now() / 1000) } },
+            { id: "fallback-2", nickname: "다마고치", text: "다인님의 아케이드는 사랑입니다.. 💖", createdAt: { seconds: Math.floor(Date.now() / 1000) - 3600 } }
+        ];
+
+        // 전역 환경 설정 확인
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'DAIN-taste-arcade';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        async function initFirebaseAndGuestbook() {
+            // Firebase Config가 존재할 때만 리얼타임 데이터베이스 활성화
+            if (firebaseConfig) {
+                try {
+                    const app = initializeApp(firebaseConfig);
+                    auth = getAuth(app);
+                    db = getFirestore(app);
+
+                    // 인증 처리 (Rule 3)
+                    if (initialAuthToken) {
+                        await signInWithCustomToken(auth, initialAuthToken);
+                    } else {
+                        await signInAnonymously(auth);
+                    }
+
+                    setupLiveGuestbookListener();
+                } catch (error) {
+                    console.warn("Firebase 연동 실패, 데모 데이터 모드로 자동 전환합니다.", error);
+                    renderGuestbook(fallbackGuestbook);
+                }
+            } else {
+                // 오프라인/환경설정 미정의 시 로컬 가상 리스트 렌더링
+                renderGuestbook(fallbackGuestbook);
+            }
+        }
+
+        // 실시간 리스너 셋업 (Rule 1 & Rule 2 만족)
+        function setupLiveGuestbookListener() {
+            if (!db) return;
+            // Strict Path 적용 (Rule 1): /artifacts/{appId}/public/data/guestbook
+            const guestbookRef = collection(db, 'artifacts', appId, 'public', 'data', 'guestbook');
+
+            // Complex Query 금지 (Rule 2) - 단순 Fetch 후 JS 단에서 sorting
+            onSnapshot(guestbookRef, (snapshot) => {
+                const entries = [];
+                snapshot.forEach((doc) => {
+                    entries.push({ id: doc.id, ...doc.data() });
+                });
+
+                // JS 인메모리 정렬 (생성일자 내림차순 - 최신 글이 위로)
+                entries.sort((a, b) => {
+                    const timeA = a.createdAt?.seconds || 0;
+                    const timeB = b.createdAt?.seconds || 0;
+                    return timeB - timeA;
+                });
+
+                renderGuestbook(entries);
+            }, (error) => {
+                console.error("Firestore 실시간 수신 에러:", error);
+                renderGuestbook(fallbackGuestbook); // 에러 발생 시 폴백
+            });
+        }
+
+        // 방명록 렌더링 함수
+        function renderGuestbook(entries) {
+            const guestbookList = document.getElementById('guestbookList');
+            const guestCount = document.getElementById('guestCount');
+
+            if (!entries || entries.length === 0) {
+                guestbookList.innerHTML = `<div class="text-center py-8 text-gray-500 text-xs">아직 방명록이 없습니다. 가장 먼저 메시지를 남겨보세요! 🕹️</div>`;
+                guestCount.innerText = `ONLINE SIGNED: 0`;
+                return;
+            }
+
+            guestCount.innerText = `ONLINE SIGNED: ${entries.length}`;
+            guestbookList.innerHTML = '';
+
+            entries.forEach(item => {
+                const dateObj = item.createdAt?.seconds ? new Date(item.createdAt.seconds * 1000) : new Date();
+                const formattedDate = `${dateObj.getFullYear()}.${String(dateObj.getMonth() + 1).padStart(2, '0')}.${String(dateObj.getDate()).padStart(2, '0')} ${String(dateObj.getHours()).padStart(2, '0')}:${String(dateObj.getMinutes()).padStart(2, '0')}`;
+
+                const card = document.createElement('div');
+                card.className = 'border-b border-gray-800 pb-3 mb-3 last:border-b-0 last:mb-0 space-y-1';
+                card.innerHTML = `
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="text-yellow-300 font-bold">[ ${escapeHTML(item.nickname)} ]</span>
+                        <span class="text-gray-500 text-[10px]">${formattedDate}</span>
+                    </div>
+                    <p class="text-sm text-gray-200 pl-1 leading-relaxed">${escapeHTML(item.text)}</p>
+                `;
+                guestbookList.appendChild(card);
+            });
+        }
+
+        // XSS 취약점 방지용 Escape 헬퍼 함수
+        function escapeHTML(str) {
+            if (!str) return '';
+            return str.replace(/[&<>'"]/g, 
+                tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+            );
+        }
+
+        // 방명록 새 메시지 등록 로직
+        async function submitGuestbook() {
+            soundSelect();
+            const nickInput = document.getElementById('guestNickname');
+            const msgInput = document.getElementById('guestMessage');
+
+            const nickname = nickInput.value.trim();
+            const messageText = msgInput.value.trim();
+
+            if (!nickname) {
+                showToastNotification("닉네임을 입력해 주세요! 👾");
+                nickInput.focus();
+                return;
+            }
+            if (!messageText) {
+                showToastNotification("소중한 한마디 메시지를 입력해 주세요! 💬");
+                msgInput.focus();
+                return;
+            }
+
+            // 버튼 비활성화로 연속 클릭 방지
+            const submitBtn = document.getElementById('submitGuestbookBtn');
+            submitBtn.setAttribute('disabled', 'true');
+            submitBtn.innerText = "서버 전송 중...";
+
+            try {
+                if (db && auth && auth.currentUser) {
+                    // Firebase 연동 상태일 때 실시간 등록 (Rule 1)
+                    const guestbookRef = collection(db, 'artifacts', appId, 'public', 'data', 'guestbook');
+                    await addDoc(guestbookRef, {
+                        nickname: nickname,
+                        text: messageText,
+                        createdAt: serverTimestamp()
+                    });
+                } else {
+                    // 로컬 가상 환경 등록 시뮬레이션
+                    const newLocalEntry = {
+                        id: `local-${Date.now()}`,
+                        nickname: nickname,
+                        text: messageText,
+                        createdAt: { seconds: Math.floor(Date.now() / 1000) }
+                    };
+                    fallbackGuestbook.unshift(newLocalEntry);
+                    renderGuestbook(fallbackGuestbook);
+                }
+
+                soundSuccess();
+                showToastNotification("🎉 방명록이 성공적으로 등록되었습니다!");
+                
+                // 폼 리셋
+                nickInput.value = '';
+                msgInput.value = '';
+            } catch (err) {
+                console.error("방명록 작성 실패:", err);
+                showToastNotification("등록 중 문제가 발생했습니다. 다시 시도해 주세요.");
+            } finally {
+                submitBtn.removeAttribute('disabled');
+                submitBtn.innerText = "🕹️ 방명록 등록하기!";
+            }
+        }
+
+        // 모듈 범위 내부 함수들을 window 전역으로 노출하여 HTML inline onclick 핸들링 지원
+        window.toggleMute = toggleMute;
+        window.scrollToCabinet = scrollToCabinet;
+        window.selectStage = selectStage;
+        window.runArcadeGacha = runArcadeGacha;
+        window.resetArcade = resetArcade;
+        window.copyToClipboard = copyToClipboard;
+        window.submitGuestbook = submitGuestbook;
+
+        // 웹페이지 로드 시 Firebase 시동
+        window.onload = function() {
+            initFirebaseAndGuestbook();
+        };
     </script>
 </body>
 </html>
