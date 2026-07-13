@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>PRESS START! 다인의 취향 아케이드 👾</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -15,6 +15,8 @@
             font-family: 'DungGeunMo', monospace;
             background-color: #FAF8F5; /* 크림 화이트 */
             image-rendering: pixelated;
+            overflow-x: hidden; /* 가로 스크롤 방지 */
+            -webkit-tap-highlight-color: transparent; /* 모바일 터치 하이라이트 제거 */
         }
 
         /* 8비트 픽셀 테두리 효과 커스텀 클래스 */
@@ -50,7 +52,7 @@
             display: block;
             position: absolute;
             top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.12) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
             z-index: 10;
             background-size: 100% 4px, 6px 100%;
             pointer-events: none;
@@ -59,7 +61,7 @@
         /* 둥실둥실 떠다니는 애니메이션 (다마고치 캐릭터용) */
         @keyframes floatY {
             0% { transform: translateY(0px); }
-            50% { transform: translateY(-8px); }
+            50% { transform: translateY(-6px); }
             100% { transform: translateY(0px); }
         }
         .animate-float {
@@ -80,7 +82,7 @@
             text-shadow: 0 0 5px rgba(34, 197, 94, 0.5);
         }
 
-        /* 가로 스크롤바 숨기기 */
+        /* 스크롤바 커스텀 */
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -96,7 +98,7 @@
 <body class="text-[#1A1D20] selection:bg-[#52D3A2] selection:text-white">
 
     <!-- 상단 시스템 로드 마키 바 (Retro Ticker) -->
-    <div class="w-full bg-[#1A1D20] text-[#52D3A2] py-2 px-4 text-xs md:text-sm overflow-hidden whitespace-nowrap border-b-4 border-[#1A1D20]">
+    <div class="w-full bg-[#1A1D20] text-[#52D3A2] py-2 px-4 text-xs md:text-sm overflow-hidden whitespace-nowrap border-b-4 border-[#1A1D20] select-none">
         <div class="inline-block animate-[marquee_25s_linear_infinite] uppercase tracking-wider">
             🚨 SYSTEM LOADING: 100% REAL DAIN PICK CURATION ACTIVATED... PRESS START TO PLAY... HAVE A SWEET DAY! 🍰 🎵 🌳 👾
         </div>
@@ -109,81 +111,81 @@
         }
     </style>
 
-    <!-- 오디오 활성화 안내 및 전역 설정 위젯 -->
-    <div class="fixed top-14 right-4 z-50">
-        <button id="soundToggle" onclick="toggleMute()" class="pixel-btn bg-yellow-300 hover:bg-yellow-400 p-2 text-xs md:text-sm flex items-center gap-2">
+    <!-- 오디오 활성화 안내 및 전역 설정 위젯 (모바일 터치 최적화 크기 조정) -->
+    <div class="fixed top-12 sm:top-14 right-3 sm:right-4 z-50">
+        <button id="soundToggle" onclick="toggleMute()" class="pixel-btn bg-yellow-300 hover:bg-yellow-400 p-2 text-xs sm:text-sm flex items-center gap-1.5 shadow-md">
             <span id="soundIcon">🔊</span>
-            <span id="soundText" class="hidden sm:inline">SOUND ON</span>
+            <span id="soundText" class="inline">SOUND ON</span>
         </button>
     </div>
 
     <!-- 1. HERO SECTION -->
-    <header class="relative min-h-[85vh] flex flex-col items-center justify-center px-4 py-16 bg-[#E6F4EE] border-b-4 border-[#1A1D20] scanlines">
+    <header class="relative min-h-[80vh] flex flex-col items-center justify-center px-4 py-12 sm:py-16 bg-[#E6F4EE] border-b-4 border-[#1A1D20] scanlines">
         <!-- 배경 데코 픽셀 격자 -->
         <div class="absolute inset-0 opacity-5 pointer-events-none" style="background-image: radial-gradient(#1A1D20 2px, transparent 2px); background-size: 24px 24px;"></div>
         
-        <div class="max-w-4xl w-full text-center z-20 space-y-8">
+        <div class="max-w-4xl w-full text-center z-20 space-y-6 sm:space-y-8">
             <!-- 배지 -->
-            <div class="inline-block bg-[#52D3A2] px-4 py-2 pixel-border-sm text-sm font-bold tracking-widest uppercase">
+            <div class="inline-block bg-[#52D3A2] px-3 py-1.5 sm:px-4 sm:py-2 pixel-border-sm text-xs sm:text-sm font-bold tracking-widest uppercase">
                 🕹️ CURRENT CREDIT: 99
             </div>
             
-            <!-- 타이틀 캐치프레이즈 -->
-            <div class="space-y-4">
-                <span class="text-sm md:text-lg tracking-widest text-emerald-800 font-bold block">[ DIALOGUE STAGE 01 ]</span>
-                <h1 class="text-3xl sm:text-4xl md:text-6xl font-black leading-tight tracking-wide drop-shadow-md">
-                    PRESS START!<br class="hidden sm:block">
+            <!-- 타이틀 캐치프레이즈 (모바일 텍스트 래핑 보정) -->
+            <div class="space-y-3 sm:space-y-4">
+                <span class="text-xs sm:text-sm md:text-lg tracking-widest text-emerald-800 font-bold block">[ DIALOGUE STAGE 01 ]</span>
+                <h1 class="text-2xl sm:text-4xl md:text-6xl font-black leading-tight tracking-wide drop-shadow-sm break-keep">
+                    PRESS START!<br class="sm:block">
                     음악, 디저트, 산책로가<br>
                     랜덤으로 튀어나오는<br>
-                    <span class="text-emerald-600 bg-white px-2 py-1 inline-block pixel-border-sm mt-2">다인의 취향 아케이드</span>
+                    <span class="text-emerald-600 bg-white px-2 py-0.5 sm:py-1 inline-block pixel-border-sm mt-2">다인의 취향 아케이드</span>
                 </h1>
             </div>
 
             <!-- 타겟/서브 문구 -->
-            <p class="text-sm md:text-lg text-gray-700 max-w-2xl mx-auto leading-relaxed px-4">
-                오늘의 대화가 더 맛있어질 수 있도록! 😋<br>
-                다마고치 속 세상처럼 포근하고 아기자기한 다인의 100% 찐 취향 보물 상자를 열어보세요.
+            <p class="text-xs sm:text-sm md:text-lg text-gray-700 max-w-2xl mx-auto leading-relaxed px-2 break-keep">
+                오늘의 대화가 더욱 다채롭고 맛있어질 수 있도록! 😋<br>
+                다마고치 속 포근한 풍경처럼 아기자기한 다인의 100% 찐 단골 취향 보물상자를 가동해 보세요.
             </p>
 
-            <!-- 히어로 인터랙티브 액션 (스크롤 유도) -->
-            <div class="pt-6">
-                <button onclick="scrollToCabinet()" class="pixel-btn bg-[#52D3A2] hover:bg-[#3dbd8c] text-[#1A1D20] text-lg md:text-2xl font-bold py-4 px-10 rounded-none transition-all duration-150 tracking-wider">
+            <!-- 히어로 인터랙티브 액션 (모바일 터치 스케일링) -->
+            <div class="pt-4 sm:pt-6">
+                <button onclick="scrollToCabinet()" class="pixel-btn bg-[#52D3A2] hover:bg-[#3dbd8c] text-[#1A1D20] text-base sm:text-lg md:text-2xl font-bold py-3 px-8 sm:py-4 sm:px-10 rounded-none transition-all duration-150 tracking-wider">
                     🕹️ GAME START 🕹️
                 </button>
             </div>
             
             <!-- 픽셀 마스코트 -->
-            <div class="flex justify-center gap-4 pt-4 animate-float">
-                <span class="text-4xl">👾</span>
-                <span class="text-4xl">🔋</span>
-                <span class="text-4xl">🧸</span>
+            <div class="flex justify-center gap-3 sm:gap-4 pt-2 sm:pt-4 animate-float">
+                <span class="text-3xl sm:text-4xl">👾</span>
+                <span class="text-3xl sm:text-4xl">🔋</span>
+                <span class="text-3xl sm:text-4xl">🧸</span>
             </div>
         </div>
     </header>
 
     <!-- 2. INTRO SECTION (RPG Dialogue Box Vibe) -->
-    <section class="py-16 px-4 bg-[#FAF8F5]">
+    <section class="py-12 sm:py-16 px-4 bg-[#FAF8F5]">
         <div class="max-w-3xl mx-auto">
-            <h2 class="text-center text-xs tracking-widest text-gray-500 mb-8 uppercase">&lt; INTRODUCE &gt;</h2>
+            <h2 class="text-center text-[10px] sm:text-xs tracking-widest text-gray-500 mb-6 sm:mb-8 uppercase">&lt; INTRODUCE &gt;</h2>
             
-            <div class="pixel-border bg-white p-6 md:p-8 relative">
+            <div class="pixel-border bg-white p-5 sm:p-8 relative">
                 <!-- RPG 대화창 이름표 -->
-                <div class="absolute -top-5 left-6 bg-[#1A1D20] text-white px-4 py-1 text-sm font-bold pixel-border-sm">
+                <div class="absolute -top-5 left-4 sm:left-6 bg-[#1A1D20] text-white px-3 py-0.5 sm:py-1 text-xs sm:text-sm font-bold pixel-border-sm">
                     CHARACTER: 다인 (DAIN)
                 </div>
 
-                <div class="flex flex-col md:flex-row items-center gap-6 mt-2">
+                <div class="flex flex-col md:flex-row items-center gap-5 sm:gap-6 mt-2">
                     <!-- 도트 스타일 프로필 프레임 -->
-                    <div class="w-24 h-24 min-w-[96px] bg-[#E6F4EE] pixel-border flex items-center justify-center text-4xl select-none">
+                    <div class="w-20 h-20 sm:w-24 sm:h-24 min-w-[80px] sm:min-w-[96px] bg-[#E6F4EE] pixel-border flex items-center justify-center text-3xl sm:text-4xl select-none">
                         💁‍♀️
                     </div>
                     
                     <!-- 친근한 지인 대상 메시지 -->
-                    <div class="space-y-4 text-center md:text-left">
-                        <p class="text-sm md:text-base leading-relaxed text-gray-800">
-                            "안녕하세요! 한 걸음 더 친해지고, 아이스브레이킹 시간을 위해 오픈한 간이 오락실입니다. 광고나 흔한 검색 결과는 지우고, 제가 애정하는 비밀 산책로, 귀가 즐거운 음악, 기분을 포근하게 하는 디저트만 꾹꾹 눌러 담았어요. 편안한 마음으로 즐겨주세요!"
+                    <div class="space-y-3 text-center md:text-left">
+                        <p class="text-xs sm:text-sm md:text-base leading-relaxed text-gray-800 break-keep">
+                            "안녕하세요! 한 걸음 더 따뜻하게 대화를 이어나가고, 가벼운 아이스브레이킹을 위해 디자인한 간이 오락실입니다. 인터넷의 수많은 상업적 리뷰 피드는 지우고, 제가 애정하는 비밀 산책로, 귀가 즐거운 명곡, 기분을 포근하게 녹여주는 디저트만 꾹꾹 압축해 두었으니 재미있게 즐겨주세요!"
                         </p>
-                        <div class="text-xs text-emerald-600 font-bold flex justify-center md:justify-start items-center gap-2">
+                        <div class="text-[10px] sm:text-xs text-emerald-600 font-bold flex justify-center md:justify-start items-center gap-1.5">
                             <span class="inline-block w-2 h-2 bg-[#52D3A2] animate-blink"></span>
                             TAP "GAME START" BELOW TO PLAY
                         </div>
@@ -194,46 +196,46 @@
     </section>
 
     <!-- 3. STRENGTH CARDS SECTION -->
-    <section class="py-16 px-4 bg-[#E6F4EE] border-t-4 border-b-4 border-[#1A1D20]">
+    <section class="py-12 sm:py-16 px-4 bg-[#E6F4EE] border-t-4 border-b-4 border-[#1A1D20]">
         <div class="max-w-5xl mx-auto">
-            <div class="text-center space-y-2 mb-12">
+            <div class="text-center space-y-2 mb-8 sm:mb-12">
                 <span class="text-emerald-700 text-xs tracking-wider uppercase font-semibold">FEATURES</span>
-                <h2 class="text-2xl md:text-4xl font-black">왜 다인의 아케이드일까요?</h2>
+                <h2 class="text-xl sm:text-3xl md:text-4xl font-black">왜 다인의 아케이드일까요?</h2>
             </div>
 
-            <!-- 3가지 핵심 매력 포인트 카드 -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- 3가지 핵심 매력 포인트 카드 (모바일에서도 가독성 우수하도록 정렬) -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
                 
                 <!-- 매력 1 -->
-                <div class="pixel-border bg-white p-6 flex flex-col items-center text-center space-y-4 transform hover:-translate-y-1 transition duration-150">
-                    <div class="w-16 h-16 bg-[#A7F3D0] rounded-none pixel-border-sm flex items-center justify-center text-3xl">
+                <div class="pixel-border bg-white p-5 sm:p-6 flex flex-col items-center text-center space-y-3 transform hover:-translate-y-1 transition duration-150">
+                    <div class="w-14 h-14 sm:w-16 sm:h-16 bg-[#A7F3D0] rounded-none pixel-border-sm flex items-center justify-center text-2xl sm:text-3xl">
                         💯
                     </div>
-                    <h3 class="text-xl font-bold">100% 리얼 다인 픽</h3>
-                    <p class="text-sm text-gray-600 leading-relaxed">
-                        네이버 블로그, 광고 리뷰 피드에 지친 분들을 위한 공간! 다인이 직접 발걸음하고 귀로 담았던 찐 단골 취향만을 보장해요.
+                    <h3 class="text-lg sm:text-xl font-bold">100% 리얼 다인 픽</h3>
+                    <p class="text-xs sm:text-sm text-gray-600 leading-relaxed break-keep">
+                        정형화된 홍보 블로그와 인스타 광고에 지친 분들을 위한 최적의 아카이브! 직접 발걸음하고 엄선한 진정성 있는 큐레이션만 제공해요.
                     </p>
                 </div>
 
                 <!-- 매력 2 -->
-                <div class="pixel-border bg-white p-6 flex flex-col items-center text-center space-y-4 transform hover:-translate-y-1 transition duration-150">
-                    <div class="w-16 h-16 bg-yellow-100 rounded-none pixel-border-sm flex items-center justify-center text-3xl">
+                <div class="pixel-border bg-white p-5 sm:p-6 flex flex-col items-center text-center space-y-3 transform hover:-translate-y-1 transition duration-150">
+                    <div class="w-14 h-14 sm:w-16 sm:h-16 bg-yellow-100 rounded-none pixel-border-sm flex items-center justify-center text-2xl sm:text-3xl">
                         👾
                     </div>
-                    <h3 class="text-xl font-bold">레트로 다마고치 감성</h3>
-                    <p class="text-sm text-gray-600 leading-relaxed">
-                        추억의 게임기와 통통 튀는 무드로 눈이 먼저 행복한 화면 구성! 시각적인 즐거움과 포근한 뉴트로 비주얼을 동시에 만나보세요.
+                    <h3 class="text-lg sm:text-xl font-bold">레트로 다마고치 감성</h3>
+                    <p class="text-xs sm:text-sm text-gray-600 leading-relaxed break-keep">
+                        8비트 클래식 게임기와 통통 튀는 디자인 요소를 고스란히 담았습니다. 눈이 먼저 포근하고 아늑해지는 픽셀 감성을 만나보세요.
                     </p>
                 </div>
 
                 <!-- 매력 3 -->
-                <div class="pixel-border bg-white p-6 flex flex-col items-center text-center space-y-4 transform hover:-translate-y-1 transition duration-150">
-                    <div class="w-16 h-16 bg-pink-100 rounded-none pixel-border-sm flex items-center justify-center text-3xl">
+                <div class="pixel-border bg-white p-5 sm:p-6 flex flex-col items-center text-center space-y-3 transform hover:-translate-y-1 transition duration-150">
+                    <div class="w-14 h-14 sm:w-16 sm:h-16 bg-pink-100 rounded-none pixel-border-sm flex items-center justify-center text-2xl sm:text-3xl">
                         🕹️
                     </div>
-                    <h3 class="text-xl font-bold">내 기분 맞춰 고르기 기믹</h3>
-                    <p class="text-sm text-gray-600 leading-relaxed">
-                        틀에 박힌 추천은 거부합니다! 유저가 현재 처한 일상의 온도나 기분 스테이지를 세팅해 최적화 가챠를 작동시킬 수 있습니다.
+                    <h3 class="text-lg sm:text-xl font-bold">내 기분 맞춤 기믹</h3>
+                    <p class="text-xs sm:text-sm text-gray-600 leading-relaxed break-keep">
+                        지루하게 고정된 추천 리스트 대신, 현재 나의 감정과 일상 속 계절적 온도에 맞추어 연동되는 개인 맞춤 가챠를 경험해 보세요.
                     </p>
                 </div>
 
@@ -242,148 +244,148 @@
     </section>
 
     <!-- 4. INTERACTIVE GACHA GAME SECTION (Main Cabinet) -->
-    <section id="arcade-cabinet-section" class="py-20 px-4 bg-[#FAF8F5]">
+    <section id="arcade-cabinet-section" class="py-12 sm:py-20 px-4 bg-[#FAF8F5]">
         <div class="max-w-4xl mx-auto">
             
-            <div class="text-center space-y-2 mb-8">
+            <div class="text-center space-y-2 mb-6 sm:mb-8">
                 <span class="text-emerald-700 text-xs tracking-wider uppercase font-bold">STAGE PLAY</span>
-                <h2 class="text-2xl md:text-4xl font-black">나만을 위한 취향 뽑기!</h2>
-                <p class="text-xs md:text-sm text-gray-500">원하는 분위기 스테이지를 선택하면 가챠 슬лот이 해제됩니다.</p>
+                <h2 class="text-xl sm:text-3xl md:text-4xl font-black">나만을 위한 취향 뽑기!</h2>
+                <p class="text-[10px] sm:text-xs md:text-sm text-gray-500">아래에서 원하는 스테이지 상황을 탭하면 전면 코인 버튼이 해제됩니다.</p>
             </div>
 
-            <!-- 아케이드 캐비닛 머신 형태 -->
-            <div class="pixel-border bg-[#2C3539] p-4 md:p-8 max-w-2xl mx-auto rounded-none relative">
+            <!-- 아케이드 캐비닛 머신 (모바일 수평 패딩 보정) -->
+            <div class="pixel-border bg-[#2C3539] p-3 sm:p-6 md:p-8 max-w-2xl mx-auto rounded-none relative">
                 
                 <!-- 위쪽 캐노피 전광판 -->
-                <div class="bg-[#1A1D20] text-[#52D3A2] p-4 mb-6 pixel-border-sm flex justify-between items-center scanlines">
-                    <div class="flex items-center gap-2">
-                        <span class="w-3 h-3 bg-red-500 rounded-full animate-pulse"></span>
-                        <span class="text-sm md:text-lg font-bold tracking-widest text-shadow">DAIN TASTE ARCADE v1.2</span>
+                <div class="bg-[#1A1D20] text-[#52D3A2] p-3 mb-4 sm:mb-6 pixel-border-sm flex justify-between items-center scanlines">
+                    <div class="flex items-center gap-1.5">
+                        <span class="w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse"></span>
+                        <span class="text-xs sm:text-sm md:text-lg font-bold tracking-widest text-shadow">TASTE ARCADE v1.2</span>
                     </div>
-                    <span class="text-xs bg-[#52D3A2] text-black px-2 py-0.5 font-bold">ONLINE</span>
+                    <span class="text-[9px] sm:text-xs bg-[#52D3A2] text-black px-1.5 py-0.5 font-bold">ONLINE</span>
                 </div>
 
-                <!-- 메인 오락실 CRT 브라운관 스크린 -->
-                <div class="bg-[#1A1D20] text-white p-6 mb-6 pixel-border-sm min-h-[300px] flex flex-col justify-between scanlines relative">
+                <!-- 메인 오락실 CRT 브라운관 스크린 (모바일 미니멀 높이 확보) -->
+                <div class="bg-[#1A1D20] text-white p-4 sm:p-6 mb-4 sm:mb-6 pixel-border-sm min-h-[260px] sm:min-h-[300px] flex flex-col justify-between scanlines relative">
                     
                     <!-- 스크린 내부 탑바 -->
-                    <div class="flex justify-between border-b border-[#52D3A2] pb-2 text-xs text-emerald-400">
+                    <div class="flex justify-between border-b border-[#52D3A2] pb-2 text-[9px] sm:text-xs text-emerald-400">
                         <span>SYS_STATUS: RUNNING</span>
                         <span>STAGE: <span id="currentStageText" class="font-bold text-yellow-300">STAGE SELECTING</span></span>
                     </div>
 
                     <!-- 메인 화면 내용 (슬롯 기믹 / 결과 출력부) -->
-                    <div id="screenContent" class="flex-grow flex flex-col justify-center items-center py-6 text-center space-y-4">
+                    <div id="screenContent" class="flex-grow flex flex-col justify-center items-center py-4 sm:py-6 text-center space-y-3">
                         <!-- 기본 대기 상태 캐릭터 마스코트 -->
-                        <div id="characterAvatar" class="text-6xl animate-float mb-2">🤖</div>
-                        <p id="screenPrompt" class="text-sm md:text-base text-gray-300 leading-relaxed max-w-sm">
-                            "반가워요! 기계 아랫단에서 어울리는 오늘의 상태 혹은 상황 스테이지를 탭해서 세팅을 완료해 주세요!"
+                        <div id="characterAvatar" class="text-5xl sm:text-6xl animate-float mb-1">🤖</div>
+                        <p id="screenPrompt" class="text-xs sm:text-sm md:text-base text-gray-300 leading-relaxed max-w-sm break-keep">
+                            "반가워요! 하단 조작기에서 여러분의 오늘의 분위기나 일상 스테이지를 탭해서 세팅을 마쳐주세요!"
                         </p>
                     </div>
 
                     <!-- 슬롯 애니메이션 디스플레이 오버레이 (평소엔 숨김) -->
-                    <div id="slotReelContainer" class="hidden flex-grow flex flex-col justify-center items-center py-6">
-                        <div class="text-sm text-[#52D3A2] mb-3 animate-pulse">취향 알고리즘 조율 및 회전 중...</div>
-                        <div class="flex gap-4 justify-center items-center bg-[#2d3748] px-6 py-4 pixel-border-sm">
-                            <div class="text-3xl" id="reelMusic">🎵</div>
-                            <div class="text-3xl text-gray-500">|</div>
-                            <div class="text-3xl" id="reelDessert">🍰</div>
-                            <div class="text-3xl text-gray-500">|</div>
-                            <div class="text-3xl" id="reelWalk">🌳</div>
+                    <div id="slotReelContainer" class="hidden flex-grow flex flex-col justify-center items-center py-4 sm:py-6">
+                        <div class="text-xs text-[#52D3A2] mb-3 animate-pulse">알고리즘 조율 및 슬롯 가동 중...</div>
+                        <div class="flex gap-3 sm:gap-4 justify-center items-center bg-[#2d3748] px-4 py-3 sm:px-6 sm:py-4 pixel-border-sm">
+                            <div class="text-2xl sm:text-3xl" id="reelMusic">🎵</div>
+                            <div class="text-2xl sm:text-3xl text-gray-500">|</div>
+                            <div class="text-2xl sm:text-3xl" id="reelDessert">🍰</div>
+                            <div class="text-2xl sm:text-3xl text-gray-500">|</div>
+                            <div class="text-2xl sm:text-3xl" id="reelWalk">🌳</div>
                         </div>
                     </div>
 
                     <!-- 결과 출력 리스트 오버레이 (평소엔 숨김) -->
-                    <div id="resultsOverlay" class="hidden flex-grow flex flex-col justify-center items-center py-4 space-y-3 w-full">
-                        <div class="text-[#52D3A2] text-lg font-bold flex items-center gap-2">
-                            <span>🎉</span> <span>결과가 산출되었습니다!</span> <span>🎉</span>
+                    <div id="resultsOverlay" class="hidden flex-grow flex flex-col justify-center items-center py-3 space-y-4 w-full">
+                        <div class="text-[#52D3A2] text-sm sm:text-lg font-bold flex items-center gap-1.5">
+                            <span>🎉</span> <span class="break-keep">취향 큐레이션 성공!</span> <span>🎉</span>
                         </div>
                         
-                        <div class="w-full space-y-2 text-left text-xs md:text-sm max-w-md bg-[#252a30] p-4 pixel-border-sm border-emerald-500">
+                        <div class="w-full space-y-2.5 text-left text-xs sm:text-sm max-w-md bg-[#252a30] p-3 sm:p-4 pixel-border-sm border-emerald-500">
                             <!-- 음악 -->
                             <div class="flex items-start gap-2 border-b border-gray-700 pb-2">
-                                <span class="bg-[#52D3A2] text-black px-1.5 py-0.5 text-[10px] font-bold">MUSIC</span>
-                                <div class="flex-grow">
-                                    <p id="resMusicTitle" class="font-bold text-yellow-300"></p>
-                                    <p id="resMusicDesc" class="text-xs text-gray-400"></p>
+                                <span class="bg-[#52D3A2] text-black px-1.5 py-0.5 text-[9px] sm:text-[10px] font-bold shrink-0">MUSIC</span>
+                                <div class="flex-grow min-w-0">
+                                    <p id="resMusicTitle" class="font-bold text-yellow-300 truncate"></p>
+                                    <p id="resMusicDesc" class="text-[10px] sm:text-xs text-gray-400 break-keep"></p>
                                 </div>
                             </div>
                             <!-- 디저트 -->
                             <div class="flex items-start gap-2 border-b border-gray-700 pb-2">
-                                <span class="bg-pink-400 text-black px-1.5 py-0.5 text-[10px] font-bold">SWEETS</span>
-                                <div class="flex-grow">
-                                    <p id="resSweetsTitle" class="font-bold text-pink-200"></p>
-                                    <p id="resSweetsDesc" class="text-xs text-gray-400"></p>
+                                <span class="bg-pink-400 text-black px-1.5 py-0.5 text-[9px] sm:text-[10px] font-bold shrink-0">SWEETS</span>
+                                <div class="flex-grow min-w-0">
+                                    <p id="resSweetsTitle" class="font-bold text-pink-200 truncate"></p>
+                                    <p id="resSweetsDesc" class="text-[10px] sm:text-xs text-gray-400 break-keep"></p>
                                 </div>
                             </div>
                             <!-- 산책 -->
                             <div class="flex items-start gap-2">
-                                <span class="bg-blue-400 text-black px-1.5 py-0.5 text-[10px] font-bold">WALK</span>
-                                <div class="flex-grow">
-                                    <p id="resWalkTitle" class="font-bold text-blue-200"></p>
-                                    <p id="resWalkDesc" class="text-xs text-gray-400"></p>
+                                <span class="bg-blue-400 text-black px-1.5 py-0.5 text-[9px] sm:text-[10px] font-bold shrink-0">WALK</span>
+                                <div class="flex-grow min-w-0">
+                                    <p id="resWalkTitle" class="font-bold text-blue-200 truncate"></p>
+                                    <p id="resWalkDesc" class="text-[10px] sm:text-xs text-gray-400 break-keep"></p>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- 액션 버튼 그룹 -->
-                        <div class="flex gap-2 w-full max-w-md justify-center">
-                            <button onclick="copyToClipboard()" class="pixel-btn bg-yellow-400 text-black text-xs px-4 py-2 hover:bg-yellow-300">
+                        <!-- 액션 버튼 그룹 (모바일에서 세로로 쌓이고 태블릿부턴 가로 배치하여 공간 확보) -->
+                        <div class="flex flex-col sm:flex-row gap-2 w-full max-w-md justify-center">
+                            <button onclick="copyToClipboard()" class="pixel-btn bg-yellow-400 text-black text-xs sm:text-sm px-4 py-2.5 sm:py-2 hover:bg-yellow-300 w-full sm:w-auto">
                                 📋 복사 후 대화 건네기
                             </button>
-                            <button onclick="resetArcade()" class="pixel-btn bg-gray-500 text-white text-xs px-4 py-2 hover:bg-gray-400">
+                            <button onclick="resetArcade()" class="pixel-btn bg-gray-500 text-white text-xs sm:text-sm px-4 py-2.5 sm:py-2 hover:bg-gray-400 w-full sm:w-auto">
                                 🔄 다시 고르기
                             </button>
                         </div>
                     </div>
 
                     <!-- 스크린 하단 바 -->
-                    <div class="border-t border-[#52D3A2] pt-2 text-[10px] text-gray-400 flex justify-between">
-                        <span>DAIN Curation System v1.0</span>
+                    <div class="border-t border-[#52D3A2] pt-2 text-[9px] sm:text-[10px] text-gray-400 flex justify-between">
+                        <span>DAIN System v1.2</span>
                         <span class="animate-blink">▉ READY TO LOAD</span>
                     </div>
 
                 </div>
 
-                <!-- 조작 장치 스테이지 선택 패널 -->
+                <!-- 조작 장치 스테이지 선택 패널 (모바일에서 1열, 데스크탑에서 2열로 깔끔하게 대응) -->
                 <div class="space-y-4">
-                    <p class="text-xs text-gray-300 uppercase tracking-widest text-center font-bold">▲ SELECT YOUR SITUATION STAGE ▲</p>
+                    <p class="text-[10px] sm:text-xs text-gray-300 uppercase tracking-widest text-center font-bold">▲ SELECT YOUR SITUATION STAGE ▲</p>
                     
-                    <div class="grid grid-cols-2 gap-3" id="stageButtonGroup">
-                        <button onclick="selectStage('rest', event)" class="stage-btn pixel-btn bg-[#FAF8F5] hover:bg-[#A7F3D0] p-3 text-xs md:text-sm text-left flex items-center gap-2">
-                            <span>☀️</span>
-                            <div class="text-left">
-                                <div class="font-bold">나른한 오후</div>
-                                <div class="text-[10px] text-gray-500">한적하게 여유 만끽할 때</div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5" id="stageButtonGroup">
+                        <button onclick="selectStage('rest', event)" class="stage-btn pixel-btn bg-[#FAF8F5] hover:bg-[#A7F3D0] p-3 text-xs sm:text-sm text-left flex items-center gap-3">
+                            <span class="text-xl sm:text-2xl shrink-0">☀️</span>
+                            <div class="text-left min-w-0">
+                                <div class="font-bold text-sm sm:text-base">나른한 오후</div>
+                                <div class="text-[10px] text-gray-500 truncate">한적하게 여유 만끽할 때</div>
                             </div>
                         </button>
-                        <button onclick="selectStage('rain', event)" class="stage-btn pixel-btn bg-[#FAF8F5] hover:bg-[#A7F3D0] p-3 text-xs md:text-sm text-left flex items-center gap-2">
-                            <span>☔</span>
-                            <div class="text-left">
-                                <div class="font-bold">비 오는 고요한 밤</div>
-                                <div class="text-[10px] text-gray-500">차분하고 센치한 분위기</div>
+                        <button onclick="selectStage('rain', event)" class="stage-btn pixel-btn bg-[#FAF8F5] hover:bg-[#A7F3D0] p-3 text-xs sm:text-sm text-left flex items-center gap-3">
+                            <span class="text-xl sm:text-2xl shrink-0">☔</span>
+                            <div class="text-left min-w-0">
+                                <div class="font-bold text-sm sm:text-base">비 오는 밤</div>
+                                <div class="text-[10px] text-gray-500 truncate">차분하고 센치한 분위기</div>
                             </div>
                         </button>
-                        <button onclick="selectStage('focus', event)" class="stage-btn pixel-btn bg-[#FAF8F5] hover:bg-[#A7F3D0] p-3 text-xs md:text-sm text-left flex items-center gap-2">
-                            <span>🔥</span>
-                            <div class="text-left">
-                                <div class="font-bold">몰입 & 열공 모드</div>
-                                <div class="text-[10px] text-gray-500">집중력 극대화가 필요할 때</div>
+                        <button onclick="selectStage('focus', event)" class="stage-btn pixel-btn bg-[#FAF8F5] hover:bg-[#A7F3D0] p-3 text-xs sm:text-sm text-left flex items-center gap-3">
+                            <span class="text-xl sm:text-2xl shrink-0">🔥</span>
+                            <div class="text-left min-w-0">
+                                <div class="font-bold text-sm sm:text-base">몰입 & 열공</div>
+                                <div class="text-[10px] text-gray-500 truncate">집중력 극대화가 필요할 때</div>
                             </div>
                         </button>
-                        <button onclick="selectStage('depressed', event)" class="stage-btn pixel-btn bg-[#FAF8F5] hover:bg-[#A7F3D0] p-3 text-xs md:text-sm text-left flex items-center gap-2">
-                            <span>🌧️</span>
-                            <div class="text-left">
-                                <div class="font-bold">당 보충이 고플 때</div>
-                                <div class="text-[10px] text-gray-500">기분 전환 리프레시 충전</div>
+                        <button onclick="selectStage('depressed', event)" class="stage-btn pixel-btn bg-[#FAF8F5] hover:bg-[#A7F3D0] p-3 text-xs sm:text-sm text-left flex items-center gap-3">
+                            <span class="text-xl sm:text-2xl shrink-0">🌧️</span>
+                            <div class="text-left min-w-0">
+                                <div class="font-bold text-sm sm:text-base">기분 리프레시</div>
+                                <div class="text-[10px] text-gray-500 truncate">당 보충 및 활력 충전</div>
                             </div>
                         </button>
                     </div>
 
-                    <!-- 가챠 작동용 큰 코인 투입 버튼 (처음엔 비활성화) -->
+                    <!-- 가챠 작동용 큰 코인 투입 버튼 (처음엔 비활성화, 터치 타겟 넓게) -->
                     <div class="pt-2">
-                        <button id="gachaTriggerBtn" onclick="runArcadeGacha()" disabled class="w-full pixel-btn bg-red-500 hover:bg-red-400 text-white font-extrabold text-lg py-4 tracking-widest disabled:bg-gray-600 disabled:text-gray-400 disabled:cursor-not-allowed">
-                            INSERT COIN & PRESS START (GO)
+                        <button id="gachaTriggerBtn" onclick="runArcadeGacha()" disabled class="w-full pixel-btn bg-red-500 hover:bg-red-400 text-white font-extrabold text-sm sm:text-lg py-3.5 sm:py-4 tracking-widest disabled:bg-gray-600 disabled:text-gray-400 disabled:cursor-not-allowed">
+                            INSERT COIN & START (GO)
                         </button>
                     </div>
                 </div>
@@ -394,51 +396,51 @@
     </section>
 
     <!-- 4.5 REALTIME RETRO GUESTBOOK SECTION -->
-    <section id="guestbook-section" class="py-16 px-4 bg-[#E6F4EE] border-t-4 border-b-4 border-[#1A1D20]">
+    <section id="guestbook-section" class="py-12 sm:py-16 px-4 bg-[#E6F4EE] border-t-4 border-b-4 border-[#1A1D20]">
         <div class="max-w-4xl mx-auto">
-            <div class="text-center space-y-2 mb-10">
+            <div class="text-center space-y-2 mb-8 sm:mb-10">
                 <span class="text-emerald-700 text-xs tracking-wider uppercase font-bold">COMMUNITY</span>
-                <h2 class="text-2xl md:text-4xl font-black">👾 아케이드 방명록 👾</h2>
-                <p class="text-xs md:text-sm text-gray-600">다마고치 오락실에 다녀간 흔적을 남겨주세요!</p>
+                <h2 class="text-xl sm:text-3xl md:text-4xl font-black">👾 아케이드 방명록 👾</h2>
+                <p class="text-xs sm:text-sm text-gray-600">오락실에 다녀간 즐거움이나 포근한 흔적을 남겨주세요!</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+            <!-- 모바일 1열 스택 / 태블릿 가로 그리드 정비 -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 items-start">
                 
                 <!-- 방명록 등록 폼 (왼쪽 5칸) -->
-                <div class="pixel-border bg-white p-6 md:col-span-5 space-y-4">
-                    <div class="text-sm font-bold border-b-2 border-[#1A1D20] pb-2 text-emerald-700">
+                <div class="pixel-border bg-white p-5 md:col-span-5 space-y-4">
+                    <div class="text-xs sm:text-sm font-bold border-b-2 border-[#1A1D20] pb-2 text-emerald-700">
                         🖋️ MESSAGE BOX
                     </div>
                     
                     <div class="space-y-1">
-                        <label class="block text-xs font-bold text-gray-700">닉네임 (NICKNAME)</label>
+                        <label class="block text-[10px] sm:text-xs font-bold text-gray-700">닉네임 (NICKNAME)</label>
                         <input id="guestNickname" type="text" maxlength="15" placeholder="예: 3반 귀염둥이" 
-                               class="w-full p-2.5 text-sm pixel-border-sm focus:outline-none focus:bg-[#FAF8F5]">
+                               class="w-full p-2.5 text-xs sm:text-sm pixel-border-sm focus:outline-none focus:bg-[#FAF8F5]">
                     </div>
 
                     <div class="space-y-1">
-                        <label class="block text-xs font-bold text-gray-700">한마디 (MESSAGE)</label>
-                        <textarea id="guestMessage" rows="3" maxlength="100" placeholder="다인님에게 전할 포근한 응원이나 인사말을 남겨주세요!" 
-                                  class="w-full p-2.5 text-sm pixel-border-sm focus:outline-none focus:bg-[#FAF8F5] resize-none"></textarea>
+                        <label class="block text-[10px] sm:text-xs font-bold text-gray-700">한마디 (MESSAGE)</label>
+                        <textarea id="guestMessage" rows="3" maxlength="100" placeholder="다인님에게 전할 대화 주제나 소소한 응원을 남겨보세요!" 
+                                  class="w-full p-2.5 text-xs sm:text-sm pixel-border-sm focus:outline-none focus:bg-[#FAF8F5] resize-none"></textarea>
                     </div>
 
-                    <button id="submitGuestbookBtn" onclick="submitGuestbook()" class="w-full pixel-btn bg-[#52D3A2] hover:bg-[#3dbd8c] text-sm font-bold py-3">
+                    <button id="submitGuestbookBtn" onclick="submitGuestbook()" class="w-full pixel-btn bg-[#52D3A2] hover:bg-[#3dbd8c] text-xs sm:text-sm font-bold py-3">
                         🕹️ 방명록 등록하기!
                     </button>
                 </div>
 
                 <!-- 실시간 방명록 리스트 보드 (오른쪽 7칸) -->
                 <div class="pixel-border bg-[#1A1D20] text-[#52D3A2] p-4 md:col-span-7 scanlines">
-                    <div class="flex justify-between border-b border-emerald-800 pb-2 mb-4 text-xs">
+                    <div class="flex justify-between border-b border-emerald-800 pb-2 mb-3 sm:mb-4 text-[10px] sm:text-xs">
                         <span>LIVE BOARD FEED</span>
                         <span id="guestCount" class="animate-pulse">ONLINE SIGNED: 0</span>
                     </div>
 
-                    <!-- 스크롤 방명록 영역 -->
-                    <div id="guestbookList" class="space-y-3 max-h-[350px] overflow-y-auto pr-2 text-sm text-white">
-                        <!-- 방명록 리스트 동적 로드 예정 -->
+                    <!-- 스크롤 방명록 영역 (모바일에서도 터치 스크롤 매끄럽게 지원) -->
+                    <div id="guestbookList" class="space-y-3 max-h-[250px] sm:max-h-[350px] overflow-y-auto pr-1 text-xs sm:text-sm text-white">
                         <div class="text-center py-10 text-gray-400 text-xs">
-                            방명록 데이터를 로딩 중이거나 첫 메시지를 기다리고 있어요... 🛰️
+                            방명록 데이터를 가져오는 중입니다... 🛰️
                         </div>
                     </div>
                 </div>
@@ -448,36 +450,36 @@
     </section>
 
     <!-- 5. RETRO FOOTER -->
-    <footer class="bg-[#1A1D20] text-gray-400 py-16 px-4 border-t-4 border-[#1A1D20]">
-        <div class="max-w-4xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+    <footer class="bg-[#1A1D20] text-gray-400 py-12 sm:py-16 px-4 border-t-4 border-[#1A1D20]">
+        <div class="max-w-4xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 sm:gap-8">
             
             <div class="space-y-2 text-center md:text-left">
-                <div class="text-[#52D3A2] text-xl font-black tracking-widest">
+                <div class="text-[#52D3A2] text-lg sm:text-xl font-black tracking-widest">
                     👾 DAIN'S PLAYGROUND 👾
                 </div>
-                <p class="text-xs text-gray-500">본 사이트는 지인과의 친목 및 아이스브레이킹 목적의 비영리 아카이브 공간입니다.</p>
+                <p class="text-[10px] sm:text-xs text-gray-500 break-keep">본 서비스는 지인들과의 소소한 대화와 친목 및 아이스브레이킹을 돕기 위해 구축한 귀여운 취향 보관소입니다.</p>
             </div>
 
             <!-- 소셜 / 교류용 문구 링크 -->
-            <div class="flex flex-col items-center md:items-end gap-2 text-xs">
-                <span>"이 추천이 마음에 드셨다면 다인에게 먼저 대화를 걸어 보세요!"</span>
+            <div class="flex flex-col items-center md:items-end gap-1 text-[10px] sm:text-xs text-center md:text-right">
+                <span class="break-keep">"마음에 쏙 드는 추천이 등장했다면 먼저 메시지를 날려보세요!"</span>
                 <span class="text-yellow-400 font-bold">HAPPY CHATTING WITH DAIN ☕</span>
             </div>
 
         </div>
-        <div class="max-w-4xl mx-auto border-t border-gray-800 mt-8 pt-8 text-center text-[10px] text-gray-600">
-            © 2026 DAIN'S TASTE ARCADE. ALL RIGHTS RESERVED. POWERED BY 8-BIT VANILLA FRONTEND JS ENGINE.
+        <div class="max-w-4xl mx-auto border-t border-gray-800 mt-6 sm:mt-8 pt-6 sm:pt-8 text-center text-[9px] sm:text-[10px] text-gray-600">
+            © 2026 DAIN'S TASTE ARCADE. ALL RIGHTS RESERVED. POWERED BY 8-BIT RESPONSIVE ENGINE.
         </div>
     </footer>
 
-    <!-- --- 자바스크립트 로직 영역 --- -->
+    <!-- --- 자바스크립트 모듈 로직 --- -->
     <script type="module">
         // Firebase Core & Firestore SDK Imports
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, collection, addDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // --- 8비트 오디오 합성 엔진 (Web Audio API) ---
+        // --- 8비트 오디오 엔진 (Web Audio API) ---
         let audioCtx = null;
         let isMuted = false;
 
@@ -487,7 +489,6 @@
             }
         }
 
-        // 특정 주파수와 지속시간으로 8비트 효과음 출력 함수
         function playBleep(frequency, type, duration, delay = 0) {
             if (isMuted) return;
             initAudio();
@@ -499,10 +500,10 @@
                 const osc = audioCtx.createOscillator();
                 const gain = audioCtx.createGain();
                 
-                osc.type = type; // 'square' (기본 복고풍 소리) 또는 'triangle', 'sawtooth'
+                osc.type = type;
                 osc.frequency.setValueAtTime(frequency, audioCtx.currentTime);
                 
-                gain.gain.setValueAtTime(0.08, audioCtx.currentTime); // 볼륨 작게 조절
+                gain.gain.setValueAtTime(0.06, audioCtx.currentTime); // 볼륨 모바일 친화적으로 낮춤
                 gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
                 
                 osc.connect(gain);
@@ -513,34 +514,32 @@
             }, delay);
         }
 
-        // 효과음 메들리 라이브러리
+        // 효과음 라이브러리
         function soundSelect() {
-            playBleep(523.25, 'square', 0.08); // C5 단음
+            playBleep(523.25, 'square', 0.08); // C5
         }
 
         function soundCoinInsert() {
             playBleep(329.63, 'square', 0.1); // E5
-            playBleep(440.00, 'square', 0.1, 80); // A5
-            playBleep(523.25, 'square', 0.2, 160); // C6
+            playBleep(440.00, 'square', 0.1, 70); // A5
+            playBleep(523.25, 'square', 0.18, 140); // C6
         }
 
         function soundSpin() {
-            playBleep(293.66, 'square', 0.05);
-            playBleep(349.23, 'square', 0.05, 50);
-            playBleep(415.30, 'square', 0.05, 100);
+            playBleep(293.66, 'square', 0.04);
+            playBleep(349.23, 'square', 0.04, 40);
         }
 
         function soundSuccess() {
-            const notes = [523.25, 659.25, 783.99, 1046.50]; // 도-미-솔-도 아르페지오
+            const notes = [523.25, 659.25, 783.99, 1046.50];
             notes.forEach((freq, idx) => {
-                playBleep(freq, 'triangle', 0.15, idx * 100);
+                playBleep(freq, 'triangle', 0.12, idx * 80);
             });
             setTimeout(() => {
-                playBleep(1318.51, 'square', 0.4);
-            }, 400);
+                playBleep(1318.51, 'square', 0.3);
+            }, 320);
         }
 
-        // 사운드 음소거 컨트롤 토글
         function toggleMute() {
             isMuted = !isMuted;
             const soundIcon = document.getElementById('soundIcon');
@@ -560,13 +559,12 @@
             }
         }
 
-        // 스크롤 이벤트 도우미
         function scrollToCabinet() {
             document.getElementById('arcade-cabinet-section').scrollIntoView({ behavior: 'smooth' });
             soundSelect();
         }
 
-        // --- 가챠용 커스텀 데이터베이스 ---
+        // --- 큐레이션 데이터 풀 ---
         const tasteDatabase = {
             rest: {
                 music: { title: "새소년 - '긴 꿈'", desc: "나른한 햇살 필터 아래 걷는 듯한 멜랑콜리 인디 팝" },
@@ -592,24 +590,21 @@
 
         let selectedStageKey = null;
 
-        // 스테이지 선택 시 로직
+        // 스테이지 지정 로직
         function selectStage(stageKey, event) {
             selectedStageKey = stageKey;
             soundSelect();
 
-            // 모든 버튼 디자인 환원 후 활성화 스타일 부여
             const stageButtons = document.querySelectorAll('.stage-btn');
             stageButtons.forEach(btn => {
                 btn.classList.remove('bg-[#52D3A2]', 'text-black');
                 btn.classList.add('bg-[#FAF8F5]', 'text-[#1A1D20]');
             });
 
-            // 현재 탭 선택 표시
             if (event && event.currentTarget) {
                 event.currentTarget.classList.add('bg-[#52D3A2]', 'text-black');
             }
 
-            // 화면 가이드 변경
             const screenPrompt = document.getElementById('screenPrompt');
             const currentStageText = document.getElementById('currentStageText');
             const triggerBtn = document.getElementById('gachaTriggerBtn');
@@ -624,37 +619,32 @@
             }
 
             currentStageText.innerText = stageTitle;
-            screenPrompt.innerHTML = `정밀 데이터 타겟팅 세팅 완료!<br><br><span class='text-yellow-300 font-bold'>"${stageTitle}"</span> 분위기에 특화된 큐레이션 기계를 작동할 준비가 되었습니다. 아래 붉은색 버튼을 눌러 슬롯을 돌려주세요!`;
+            screenPrompt.innerHTML = `정밀 데이터 타겟팅 완료!<br><br><span class='text-yellow-300 font-bold'>"${stageTitle}"</span> 분위기에 동기화되었습니다. 아래 붉은색 버튼을 눌러 슬롯을 돌려주세요!`;
             
             triggerBtn.innerText = "슬롯 머신 스타트! (GO)";
             triggerBtn.removeAttribute('disabled');
         }
 
-        // 가챠 회전 애니메이션 실행 및 사운드 동기화
+        // 가챠 룰렛 애니메이션 가동
         function runArcadeGacha() {
             if (!selectedStageKey) return;
             
             soundCoinInsert();
 
-            // 엘리먼트 세팅
             const screenContent = document.getElementById('screenContent');
             const slotReelContainer = document.getElementById('slotReelContainer');
             const resultsOverlay = document.getElementById('resultsOverlay');
-            const stageButtonGroup = document.getElementById('stageButtonGroup');
             const triggerBtn = document.getElementById('gachaTriggerBtn');
 
-            // 인터렉션 중 조작 잠금
             screenContent.classList.add('hidden');
             resultsOverlay.classList.add('hidden');
             slotReelContainer.classList.remove('hidden');
             triggerBtn.setAttribute('disabled', 'true');
-            triggerBtn.innerText = "시스템 분석 및 추출 진행 중...";
+            triggerBtn.innerText = "알고리즘 분석 및 추출 중...";
             
-            // 모든 스테이지 선택기 비활성화
             const stageButtons = document.querySelectorAll('.stage-btn');
             stageButtons.forEach(btn => btn.setAttribute('disabled', 'true'));
 
-            // 룰렛 효과 연출용 이모지 배열
             const musicEmojis = ["🎵", "🎹", "🎧", "🎸", "🎻"];
             const dessertEmojis = ["🍰", "🍓", "🍫", "🍩", "🍋", "🧁"];
             const walkEmojis = ["🌳", "🚶‍♀️", "🧭", "🌇", "🚲", "🗺️"];
@@ -666,12 +656,10 @@
                 document.getElementById('reelWalk').innerText = walkEmojis[Math.floor(Math.random() * walkEmojis.length)];
             }, 100);
 
-            // 약 2.5초간 가챠가 돌아간 후 결과 추출
             setTimeout(() => {
                 clearInterval(spinInterval);
                 soundSuccess();
                 
-                // 결과 노출
                 slotReelContainer.classList.add('hidden');
                 resultsOverlay.classList.remove('hidden');
                 
@@ -687,25 +675,21 @@
                 document.getElementById('resWalkDesc').innerText = resultData.walk.desc;
 
                 triggerBtn.innerText = "큐레이션 추출 완료!";
-            }, 2200);
+            }, 2000);
         }
 
-        // 아케이드 기계 초기화
         function resetArcade() {
             soundSelect();
             selectedStageKey = null;
 
-            // 스테이지 리셋
             document.getElementById('currentStageText').innerText = "STAGE SELECTING";
             document.getElementById('characterAvatar').innerText = "🤖";
-            document.getElementById('screenPrompt').innerHTML = '"반가워요! 기계 아랫단에서 어울리는 오늘의 상태 혹은 상황 스테이지를 탭해서 세팅을 완료해 주세요!"';
+            document.getElementById('screenPrompt').innerHTML = '"반가워요! 하단 조작기에서 여러분의 오늘의 분위기나 일상 스테이지를 탭해서 세팅을 마쳐주세요!"';
             
-            // UI 숨김 제어 복원
             document.getElementById('screenContent').classList.remove('hidden');
             document.getElementById('slotReelContainer').classList.add('hidden');
             document.getElementById('resultsOverlay').classList.add('hidden');
             
-            // 버튼들 복구
             const stageButtons = document.querySelectorAll('.stage-btn');
             stageButtons.forEach(btn => {
                 btn.removeAttribute('disabled');
@@ -718,7 +702,6 @@
             triggerBtn.innerText = "상황을 먼저 선택해주세요!";
         }
 
-        // 결과 텍스트 클립보드 복사 기능 (대화 아이스브레이킹 목적)
         function copyToClipboard() {
             if (!selectedStageKey) return;
             soundSelect();
@@ -730,9 +713,8 @@
             if (selectedStageKey === 'focus') stageKorean = "몰입 & 열공 모드 🔥";
             if (selectedStageKey === 'depressed') stageKorean = "당 보충 & 리프레시 🌧️";
 
-            const copyText = `👾 [다인의 취향 아케이드] 결과 기록지 👾\n\n내가 고른 오늘 상태: "${stageKorean}"\n\n🎵 다인의 추천 음악: ${data.music.title} (${data.music.desc})\n🍰 다인의 추천 디저트: ${data.sweets.title} (${data.sweets.desc})\n🌳 다인의 추천 비밀 산책로: ${data.walk.title} (${data.walk.desc})\n\n이 결과와 취향에 대해 이야기 나눠볼래요? 😊`;
+            const copyText = `👾 [다인의 취향 아케이드] 결과 기록지 👾\n\n오늘 나의 상태: "${stageKorean}"\n\n🎵 추천 음악: ${data.music.title} (${data.music.desc})\n🍰 추천 디저트: ${data.sweets.title} (${data.sweets.desc})\n🌳 비밀 산책로: ${data.walk.title} (${data.walk.desc})\n\n이 결과와 취향에 대해 가볍게 이야기 나눠볼래요? 😊`;
 
-            // 크로스 브라우징 클립보드 복사 기법 적용
             const tempTextArea = document.createElement("textarea");
             tempTextArea.value = copyText;
             document.body.appendChild(tempTextArea);
@@ -741,55 +723,50 @@
             try {
                 const successful = document.execCommand('copy');
                 if (successful) {
-                    showToastNotification("📋 결과 기록이 복사되었습니다! 지인에게 카톡으로 대화를 건네 보세요!");
+                    showToastNotification("📋 취향 결과지가 복사되었습니다! 지인에게 공유해 보세요!");
                 } else {
-                    showToastNotification("복사 실패. 수동 복사를 부탁드립니다.");
+                    showToastNotification("복사 실패. 수동 선택 복사를 부탁드립니다.");
                 }
             } catch (err) {
-                showToastNotification("복사 실패. 수동 복사를 부탁드립니다.");
+                showToastNotification("복사 실패. 수동 선택 복사를 부탁드립니다.");
             }
             
             document.body.removeChild(tempTextArea);
         }
 
-        // 복사 알림용 커스텀 토스트 알림 (UI 일관성 유지)
         function showToastNotification(message) {
             const toast = document.createElement('div');
-            toast.className = 'fixed bottom-8 left-1/2 transform -translate-x-1/2 pixel-border bg-[#1A1D20] text-[#52D3A2] px-6 py-3 text-xs md:text-sm font-bold z-50 text-center shadow-2xl';
+            toast.className = 'fixed bottom-8 left-1/2 transform -translate-x-1/2 pixel-border bg-[#1A1D20] text-[#52D3A2] px-5 py-3 text-xs font-bold z-50 text-center shadow-2xl max-w-[90vw] break-keep';
             toast.innerText = message;
             document.body.appendChild(toast);
 
             setTimeout(() => {
-                toast.style.transition = 'opacity 0.5s ease';
+                toast.style.transition = 'opacity 0.4s ease';
                 toast.style.opacity = '0';
-                setTimeout(() => toast.remove(), 500);
-            }, 3500);
+                setTimeout(() => toast.remove(), 400);
+            }, 3000);
         }
 
-        // --- FIREBASE FIRESTORE REALTIME GUESTBOOK INTEGRATION ---
+        // --- FIREBASE GUESTBOOK REALTIME INTEGRATION ---
         let db = null;
         let auth = null;
 
-        // Firebase Fallback용 가상 인메모리 방명록 데이터 (서버 지연/부재 시 브라우저 내에서 안전하게 작동)
         let fallbackGuestbook = [
-            { id: "fallback-1", nickname: "아케이드 개발자", text: "방명록 기능이 완성되었습니다! 🎮 첫 번째 리뷰를 달아보세요!", createdAt: { seconds: Math.floor(Date.now() / 1000) } },
-            { id: "fallback-2", nickname: "다마고치", text: "다인님의 아케이드는 사랑입니다.. 💖", createdAt: { seconds: Math.floor(Date.now() / 1000) - 3600 } }
+            { id: "fb-1", nickname: "아케이드 봇", text: "방명록 연동이 완료되었습니다! 🎮 첫 한마디의 행운을 잡으세요!", createdAt: { seconds: Math.floor(Date.now() / 1000) } },
+            { id: "fb-2", nickname: "다마고치", text: "다인님 추천 음악 정말 최고예요! 분위기 대박 💖", createdAt: { seconds: Math.floor(Date.now() / 1000) - 1800 } }
         ];
 
-        // 전역 환경 설정 확인
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'DAIN-taste-arcade';
         const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
         const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
 
         async function initFirebaseAndGuestbook() {
-            // Firebase Config가 존재할 때만 리얼타임 데이터베이스 활성화
             if (firebaseConfig) {
                 try {
                     const app = initializeApp(firebaseConfig);
                     auth = getAuth(app);
                     db = getFirestore(app);
 
-                    // 인증 처리 (Rule 3)
                     if (initialAuthToken) {
                         await signInWithCustomToken(auth, initialAuthToken);
                     } else {
@@ -798,29 +775,24 @@
 
                     setupLiveGuestbookListener();
                 } catch (error) {
-                    console.warn("Firebase 연동 실패, 데모 데이터 모드로 자동 전환합니다.", error);
+                    console.warn("서버 미연결 상태, 안전 데모 데이터 모드로 자동 전환합니다.", error);
                     renderGuestbook(fallbackGuestbook);
                 }
             } else {
-                // 오프라인/환경설정 미정의 시 로컬 가상 리스트 렌더링
                 renderGuestbook(fallbackGuestbook);
             }
         }
 
-        // 실시간 리스너 셋업 (Rule 1 & Rule 2 만족)
         function setupLiveGuestbookListener() {
             if (!db) return;
-            // Strict Path 적용 (Rule 1): /artifacts/{appId}/public/data/guestbook
             const guestbookRef = collection(db, 'artifacts', appId, 'public', 'data', 'guestbook');
 
-            // Complex Query 금지 (Rule 2) - 단순 Fetch 후 JS 단에서 sorting
             onSnapshot(guestbookRef, (snapshot) => {
                 const entries = [];
                 snapshot.forEach((doc) => {
                     entries.push({ id: doc.id, ...doc.data() });
                 });
 
-                // JS 인메모리 정렬 (생성일자 내림차순 - 최신 글이 위로)
                 entries.sort((a, b) => {
                     const timeA = a.createdAt?.seconds || 0;
                     const timeB = b.createdAt?.seconds || 0;
@@ -829,18 +801,17 @@
 
                 renderGuestbook(entries);
             }, (error) => {
-                console.error("Firestore 실시간 수신 에러:", error);
-                renderGuestbook(fallbackGuestbook); // 에러 발생 시 폴백
+                console.error("Firestore 수신에러:", error);
+                renderGuestbook(fallbackGuestbook);
             });
         }
 
-        // 방명록 렌더링 함수
         function renderGuestbook(entries) {
             const guestbookList = document.getElementById('guestbookList');
             const guestCount = document.getElementById('guestCount');
 
             if (!entries || entries.length === 0) {
-                guestbookList.innerHTML = `<div class="text-center py-8 text-gray-500 text-xs">아직 방명록이 없습니다. 가장 먼저 메시지를 남겨보세요! 🕹️</div>`;
+                guestbookList.innerHTML = `<div class="text-center py-8 text-gray-500 text-xs">작성된 방명록이 아직 없습니다. 가장 먼저 첫마디를 달아주세요! 🕹️</div>`;
                 guestCount.innerText = `ONLINE SIGNED: 0`;
                 return;
             }
@@ -853,19 +824,18 @@
                 const formattedDate = `${dateObj.getFullYear()}.${String(dateObj.getMonth() + 1).padStart(2, '0')}.${String(dateObj.getDate()).padStart(2, '0')} ${String(dateObj.getHours()).padStart(2, '0')}:${String(dateObj.getMinutes()).padStart(2, '0')}`;
 
                 const card = document.createElement('div');
-                card.className = 'border-b border-gray-800 pb-3 mb-3 last:border-b-0 last:mb-0 space-y-1';
+                card.className = 'border-b border-gray-800 pb-2.5 mb-2.5 last:border-b-0 last:mb-0 space-y-1';
                 card.innerHTML = `
                     <div class="flex justify-between items-center text-xs">
                         <span class="text-yellow-300 font-bold">[ ${escapeHTML(item.nickname)} ]</span>
                         <span class="text-gray-500 text-[10px]">${formattedDate}</span>
                     </div>
-                    <p class="text-sm text-gray-200 pl-1 leading-relaxed">${escapeHTML(item.text)}</p>
+                    <p class="text-xs sm:text-sm text-gray-200 pl-1 leading-relaxed break-words">${escapeHTML(item.text)}</p>
                 `;
                 guestbookList.appendChild(card);
             });
         }
 
-        // XSS 취약점 방지용 Escape 헬퍼 함수
         function escapeHTML(str) {
             if (!str) return '';
             return str.replace(/[&<>'"]/g, 
@@ -873,7 +843,6 @@
             );
         }
 
-        // 방명록 새 메시지 등록 로직
         async function submitGuestbook() {
             soundSelect();
             const nickInput = document.getElementById('guestNickname');
@@ -888,19 +857,17 @@
                 return;
             }
             if (!messageText) {
-                showToastNotification("소중한 한마디 메시지를 입력해 주세요! 💬");
+                showToastNotification("메시지를 한마디 작성해 주세요! 💬");
                 msgInput.focus();
                 return;
             }
 
-            // 버튼 비활성화로 연속 클릭 방지
             const submitBtn = document.getElementById('submitGuestbookBtn');
             submitBtn.setAttribute('disabled', 'true');
-            submitBtn.innerText = "서버 전송 중...";
+            submitBtn.innerText = "전송 중...";
 
             try {
                 if (db && auth && auth.currentUser) {
-                    // Firebase 연동 상태일 때 실시간 등록 (Rule 1)
                     const guestbookRef = collection(db, 'artifacts', appId, 'public', 'data', 'guestbook');
                     await addDoc(guestbookRef, {
                         nickname: nickname,
@@ -908,7 +875,6 @@
                         createdAt: serverTimestamp()
                     });
                 } else {
-                    // 로컬 가상 환경 등록 시뮬레이션
                     const newLocalEntry = {
                         id: `local-${Date.now()}`,
                         nickname: nickname,
@@ -920,21 +886,20 @@
                 }
 
                 soundSuccess();
-                showToastNotification("🎉 방명록이 성공적으로 등록되었습니다!");
+                showToastNotification("🎉 방명록 작성이 성공적으로 완료되었습니다!");
                 
-                // 폼 리셋
                 nickInput.value = '';
                 msgInput.value = '';
             } catch (err) {
-                console.error("방명록 작성 실패:", err);
-                showToastNotification("등록 중 문제가 발생했습니다. 다시 시도해 주세요.");
+                console.error("제출 실패:", err);
+                showToastNotification("등록 중 오류가 생겼습니다. 다시 시도해 주세요.");
             } finally {
                 submitBtn.removeAttribute('disabled');
                 submitBtn.innerText = "🕹️ 방명록 등록하기!";
             }
         }
 
-        // 모듈 범위 내부 함수들을 window 전역으로 노출하여 HTML inline onclick 핸들링 지원
+        // 글로벌 바인딩 처리
         window.toggleMute = toggleMute;
         window.scrollToCabinet = scrollToCabinet;
         window.selectStage = selectStage;
@@ -943,7 +908,6 @@
         window.copyToClipboard = copyToClipboard;
         window.submitGuestbook = submitGuestbook;
 
-        // 웹페이지 로드 시 Firebase 시동
         window.onload = function() {
             initFirebaseAndGuestbook();
         };
