@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRESS START! 다인의 취향 아케이드 👾</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 8비트 레트로 한글 폰트: 둥근모꼴 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/DungGeunMo.woff2">
+    
+    <style>
+        /* 레트로 8비트 폰트 적용 및 기본 세팅 */
+        body {
+            font-family: 'DungGeunMo', monospace;
+            background-color: #FAF8F5; /* 크림 화이트 */
+            image-rendering: pixelated;
+        }
+
+        /* 8비트 픽셀 테두리 효과 커스텀 클래스 */
+        .pixel-border {
+            border: 4px solid #1A1D20;
+            box-shadow: 4px 4px 0px #1A1D20;
+        }
+        
+        .pixel-border-sm {
+            border: 2px solid #1A1D20;
+            box-shadow: 2px 2px 0px #1A1D20;
+        }
+
+        .pixel-btn {
+            position: relative;
+            border: 4px solid #1A1D20;
+            box-shadow: 4px 4px 0px #1A1D20;
+            transition: all 0.1s ease;
+        }
+
+        .pixel-btn:active:not(:disabled) {
+            transform: translate(3px, 3px);
+            box-shadow: 1px 1px 0px #1A1D20;
+        }
+
+        /* 아케이드 화면 주사선 효과 (Scanline) */
+        .scanlines {
+            position: relative;
+            overflow: hidden;
+        }
+        .scanlines::before {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            z-index: 10;
+            background-size: 100% 4px, 6px 100%;
+            pointer-events: none;
+        }
+
+        /* 둥실둥실 떠다니는 애니메이션 (다마고치 캐릭터용) */
+        @keyframes floatY {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float {
+            animation: floatY 3s ease-in-out infinite;
+        }
+
+        /* 깜빡이는 인디케이터 */
+        @keyframes blink {
+            0%, 49% { opacity: 1; }
+            50%, 100% { opacity: 0; }
+        }
+        .animate-blink {
+            animation: blink 1s infinite;
+        }
+
+        /* 네온 픽셀 글로우 */
+        .neon-glow {
+            text-shadow: 0 0 5px rgba(34, 197, 94, 0.5);
+        }
+
+        /* 가로 스크롤바 숨기기 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FAF8F5;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #52D3A2;
+            border: 2px solid #1A1D20;
+        }
+    </style>
+</head>
+<body class="text-[#1A1D20] selection:bg-[#52D3A2] selection:text-white">
+
+    <!-- 상단 시스템 로드 마키 바 (Retro Ticker) -->
+    <div class="w-full bg-[#1A1D20] text-[#52D3A2] py-2 px-4 text-xs md:text-sm overflow-hidden whitespace-nowrap border-b-4 border-[#1A1D20]">
+        <div class="inline-block animate-[marquee_25s_linear_infinite] uppercase tracking-wider">
+            🚨 SYSTEM LOADING: 100% REAL DAYIN PICK CURATION ACTIVATED... PRESS START TO PLAY... HAVE A SWEET DAY! 🍰 🎵 🌳 👾
+        </div>
+    </div>
+    
+    <style>
+        @keyframes marquee {
+            0% { transform: translate3d(100%, 0, 0); }
+            100% { transform: translate3d(-100%, 0, 0); }
+        }
+    </style>
+
+    <!-- 오디오 활성화 안내 및 전역 설정 위젯 -->
+    <div class="fixed top-14 right-4 z-50">
+        <button id="soundToggle" onclick="toggleMute()" class="pixel-btn bg-yellow-300 hover:bg-yellow-400 p-2 text-xs md:text-sm flex items-center gap-2">
+            <span id="soundIcon">🔊</span>
+            <span id="soundText" class="hidden sm:inline">SOUND ON</span>
+        </button>
+    </div>
+
+    <!-- 1. HERO SECTION -->
+    <header class="relative min-h-[85vh] flex flex-col items-center justify-center px-4 py-16 bg-[#E6F4EE] border-b-4 border-[#1A1D20] scanlines">
+        <!-- 배경 데코 픽셀 격자 -->
+        <div class="absolute inset-0 opacity-5 pointer-events-none" style="background-image: radial-gradient(#1A1D20 2px, transparent 2px); background-size: 24px 24px;"></div>
+        
+        <div class="max-w-4xl w-full text-center z-20 space-y-8">
+            <!-- 배지 -->
+            <div class="inline-block bg-[#52D3A2] px-4 py-2 pixel-border-sm text-sm font-bold tracking-widest uppercase">
+                🕹️ CURRENT CREDIT: 99
+            </div>
+            
+            <!-- 타이틀 캐치프레이즈 -->
+            <div class="space-y-4">
+                <span class="text-sm md:text-lg tracking-widest text-emerald-800 font-bold block">[ DIALOGUE STAGE 01 ]</span>
+                <h1 class="text-3xl sm:text-4xl md:text-6xl font-black leading-tight tracking-wide drop-shadow-md">
+                    PRESS START!<br class="hidden sm:block">
+                    음악, 디저트, 산책로가<br>
+                    랜덤으로 튀어나오는<br>
+                    <span class="text-emerald-600 bg-white px-2 py-1 inline-block pixel-border-sm mt-2">다인의 취향 아케이드</span>
+                </h1>
+            </div>
+
+            <!-- 타겟/서브 문구 -->
+            <p class="text-sm md:text-lg text-gray-700 max-w-2xl mx-auto leading-relaxed px-4">
+                오늘의 대화가 더 맛있어질 수 있도록! 😋<br>
+                다마고치 속 세상처럼 포근하고 아기자기한 다인의 100% 찐 취향 보물 상자를 열어보세요.
+            </p>
+
+            <!-- 히어로 인터랙티브 액션 (스크롤 유도) -->
+            <div class="pt-6">
+                <button onclick="scrollToCabinet()" class="pixel-btn bg-[#52D3A2] hover:bg-[#3dbd8c] text-[#1A1D20] text-lg md:text-2xl font-bold py-4 px-10 rounded-none transition-all duration-150 tracking-wider">
+                    🕹️ GAME START 🕹️
+                </button>
+            </div>
+            
+            <!-- 픽셀 마스코트 -->
+            <div class="flex justify-center gap-4 pt-4 animate-float">
+                <span class="text-4xl">👾</span>
+                <span class="text-4xl">🔋</span>
+                <span class="text-4xl">🧸</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. INTRO SECTION (RPG Dialogue Box Vibe) -->
+    <section class="py-16 px-4 bg-[#FAF8F5]">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-center text-xs tracking-widest text-gray-500 mb-8 uppercase">&lt; INTRODUCE &gt;</h2>
+            
+            <div class="pixel-border bg-white p-6 md:p-8 relative">
+                <!-- RPG 대화창 이름표 -->
+                <div class="absolute -top-5 left-6 bg-[#1A1D20] text-white px-4 py-1 text-sm font-bold pixel-border-sm">
+                    CHARACTER: 다인 (DAIN)
+                </div>
+
+                <div class="flex flex-col md:flex-row items-center gap-6 mt-2">
+                    <!-- 도트 스타일 프로필 프레임 -->
+                    <div class="w-24 h-24 min-w-[96px] bg-[#E6F4EE] pixel-border flex items-center justify-center text-4xl select-none">
+                        💁‍♀️
+                    </div>
+                    
+                    <!-- 친근한 지인 대상 메시지 -->
+                    <div class="space-y-4 text-center md:text-left">
+                        <p class="text-sm md:text-base leading-relaxed text-gray-800">
+                            "안녕하세요! 한 걸음 더 친해지고, 아이스브레이킹 시간을 위해 오픈한 간이 오락실입니다. 광고나 흔한 검색 결과는 지우고, 제가 애정하는 비밀 산책로, 귀가 즐거운 음악, 기분을 포근하게 하는 디저트만 꾹꾹 눌러 담았어요. 편안한 마음으로 즐겨주세요!"
+                        </p>
+                        <div class="text-xs text-emerald-600 font-bold flex justify-center md:justify-start items-center gap-2">
+                            <span class="inline-block w-2 h-2 bg-[#52D3A2] animate-blink"></span>
+                            TAP "GAME START" BELOW TO PLAY
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. STRENGTH CARDS SECTION -->
+    <section class="py-16 px-4 bg-[#E6F4EE] border-t-4 border-b-4 border-[#1A1D20]">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center space-y-2 mb-12">
+                <span class="text-emerald-700 text-xs tracking-wider uppercase font-semibold">FEATURES</span>
+                <h2 class="text-2xl md:text-4xl font-black">왜 다인의 아케이드일까요?</h2>
+            </div>
+
+            <!-- 3가지 핵심 매력 포인트 카드 -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- 매력 1 -->
+                <div class="pixel-border bg-white p-6 flex flex-col items-center text-center space-y-4 transform hover:-translate-y-1 transition duration-150">
+                    <div class="w-16 h-16 bg-[#A7F3D0] rounded-none pixel-border-sm flex items-center justify-center text-3xl">
+                        💯
+                    </div>
+                    <h3 class="text-xl font-bold">100% 리얼 다인 픽</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">
+                        네이버 블로그, 광고 리뷰 피드에 지친 분들을 위한 공간! 다인이 직접 발걸음하고 귀로 담았던 찐 단골 취향만을 보장해요.
+                    </p>
+                </div>
+
+                <!-- 매력 2 -->
+                <div class="pixel-border bg-white p-6 flex flex-col items-center text-center space-y-4 transform hover:-translate-y-1 transition duration-150">
+                    <div class="w-16 h-16 bg-yellow-100 rounded-none pixel-border-sm flex items-center justify-center text-3xl">
+                        👾
+                    </div>
+                    <h3 class="text-xl font-bold">레트로 다마고치 감성</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">
+                        추억의 게임기와 통통 튀는 무드로 눈이 먼저 행복한 화면 구성! 시각적인 즐거움과 포근한 뉴트로 비주얼을 동시에 만나보세요.
+                    </p>
+                </div>
+
+                <!-- 매력 3 -->
+                <div class="pixel-border bg-white p-6 flex flex-col items-center text-center space-y-4 transform hover:-translate-y-1 transition duration-150">
+                    <div class="w-16 h-16 bg-pink-100 rounded-none pixel-border-sm flex items-center justify-center text-3xl">
+                        🕹️
+                    </div>
+                    <h3 class="text-xl font-bold">내 기분 맞춰 고르기 기믹</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">
+                        틀에 박힌 추천은 거부합니다! 현재 처한 일상의 온도나 기분 스테이지를 세팅해 최적화 가챠를 작동시킬 수 있습니다.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. INTERACTIVE GACHA GAME SECTION (Main Cabinet) -->
+    <section id="arcade-cabinet-section" class="py-20 px-4 bg-[#FAF8F5]">
+        <div class="max-w-4xl mx-auto">
+            
+            <div class="text-center space-y-2 mb-8">
+                <span class="text-emerald-700 text-xs tracking-wider uppercase font-bold">STAGE PLAY</span>
+                <h2 class="text-2xl md:text-4xl font-black">나만을 위한 취향 뽑기!</h2>
+                <p class="text-xs md:text-sm text-gray-500">원하는 분위기 스테이지를 선택하면 가챠 슬롯이 해제됩니다.</p>
+            </div>
+
+            <!-- 아케이드 캐비닛 머신 형태 -->
+            <div class="pixel-border bg-[#2C3539] p-4 md:p-8 max-w-2xl mx-auto rounded-none relative">
+                
+                <!-- 위쪽 캐노피 전광판 -->
+                <div class="bg-[#1A1D20] text-[#52D3A2] p-4 mb-6 pixel-border-sm flex justify-between items-center scanlines">
+                    <div class="flex items-center gap-2">
+                        <span class="w-3 h-3 bg-red-500 rounded-full animate-pulse"></span>
+                        <span class="text-sm md:text-lg font-bold tracking-widest text-shadow">DAYIN TASTE ARCADE v1.2</span>
+                    </div>
+                    <span class="text-xs bg-[#52D3A2] text-black px-2 py-0.5 font-bold">ONLINE</span>
+                </div>
+
+                <!-- 메인 오락실 CRT 브라운관 스크린 -->
+                <div class="bg-[#1A1D20] text-white p-6 mb-6 pixel-border-sm min-h-[300px] flex flex-col justify-between scanlines relative">
+                    
+                    <!-- 스크린 내부 탑바 -->
+                    <div class="flex justify-between border-b border-[#52D3A2] pb-2 text-xs text-emerald-400">
+                        <span>SYS_STATUS: RUNNING</span>
+                        <span>STAGE: <span id="currentStageText" class="font-bold text-yellow-300">STAGE SELECTING</span></span>
+                    </div>
+
+                    <!-- 메인 화면 내용 (슬롯 기믹 / 결과 출력부) -->
+                    <div id="screenContent" class="flex-grow flex flex-col justify-center items-center py-6 text-center space-y-4">
+                        <!-- 기본 대기 상태 캐릭터 마스코트 -->
+                        <div id="characterAvatar" class="text-6xl animate-float mb-2">🤖</div>
+                        <p id="screenPrompt" class="text-sm md:text-base text-gray-300 leading-relaxed max-w-sm">
+                            "반가워요! 기계 아랫단에서 어울리는 오늘의 상태 혹은 상황 스테이지를 탭해서 세팅을 완료해 주세요!"
+                        </p>
+                    </div>
+
+                    <!-- 슬롯 애니메이션 디스플레이 오버레이 (평소엔 숨김) -->
+                    <div id="slotReelContainer" class="hidden flex-grow flex flex-col justify-center items-center py-6">
+                        <div class="text-sm text-[#52D3A2] mb-3 animate-pulse">취향 알고리즘 조율 및 회전 중...</div>
+                        <div class="flex gap-4 justify-center items-center bg-[#2d3748] px-6 py-4 pixel-border-sm">
+                            <div class="text-3xl" id="reelMusic">🎵</div>
+                            <div class="text-3xl text-gray-500">|</div>
+                            <div class="text-3xl" id="reelDessert">🍰</div>
+                            <div class="text-3xl text-gray-500">|</div>
+                            <div class="text-3xl" id="reelWalk">🌳</div>
+                        </div>
+                    </div>
+
+                    <!-- 결과 출력 리스트 오버레이 (평소엔 숨김) -->
+                    <div id="resultsOverlay" class="hidden flex-grow flex flex-col justify-center items-center py-4 space-y-3 w-full">
+                        <div class="text-[#52D3A2] text-lg font-bold flex items-center gap-2">
+                            <span>🎉</span> <span>결과가 산출되었습니다!</span> <span>🎉</span>
+                        </div>
+                        
+                        <div class="w-full space-y-2 text-left text-xs md:text-sm max-w-md bg-[#252a30] p-4 pixel-border-sm border-emerald-500">
+                            <!-- 음악 -->
+                            <div class="flex items-start gap-2 border-b border-gray-700 pb-2">
+                                <span class="bg-[#52D3A2] text-black px-1.5 py-0.5 text-[10px] font-bold">MUSIC</span>
+                                <div class="flex-grow">
+                                    <p id="resMusicTitle" class="font-bold text-yellow-300"></p>
+                                    <p id="resMusicDesc" class="text-xs text-gray-400"></p>
+                                </div>
+                            </div>
+                            <!-- 디저트 -->
+                            <div class="flex items-start gap-2 border-b border-gray-700 pb-2">
+                                <span class="bg-pink-400 text-black px-1.5 py-0.5 text-[10px] font-bold">SWEETS</span>
+                                <div class="flex-grow">
+                                    <p id="resSweetsTitle" class="font-bold text-pink-200"></p>
+                                    <p id="resSweetsDesc" class="text-xs text-gray-400"></p>
+                                </div>
+                            </div>
+                            <!-- 산책 -->
+                            <div class="flex items-start gap-2">
+                                <span class="bg-blue-400 text-black px-1.5 py-0.5 text-[10px] font-bold">WALK</span>
+                                <div class="flex-grow">
+                                    <p id="resWalkTitle" class="font-bold text-blue-200"></p>
+                                    <p id="resWalkDesc" class="text-xs text-gray-400"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 액션 버튼 그룹 -->
+                        <div class="flex gap-2 w-full max-w-md justify-center">
+                            <button onclick="copyToClipboard()" class="pixel-btn bg-yellow-400 text-black text-xs px-4 py-2 hover:bg-yellow-300">
+                                📋 복사 후 대화 건네기
+                            </button>
+                            <button onclick="resetArcade()" class="pixel-btn bg-gray-500 text-white text-xs px-4 py-2 hover:bg-gray-400">
+                                🔄 다시 고르기
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 스크린 하단 바 -->
+                    <div class="border-t border-[#52D3A2] pt-2 text-[10px] text-gray-400 flex justify-between">
+                        <span>DAYIN Curation System v1.0</span>
+                        <span class="animate-blink">▉ READY TO LOAD</span>
+                    </div>
+
+                </div>
+
+                <!-- 조작 장치 스테이지 선택 패널 -->
+                <div class="space-y-4">
+                    <p class="text-xs text-gray-300 uppercase tracking-widest text-center font-bold">▲ SELECT YOUR SITUATION STAGE ▲</p>
+                    
+                    <div class="grid grid-cols-2 gap-3" id="stageButtonGroup">
+                        <button onclick="selectStage('rest')" class="stage-btn pixel-btn bg-[#FAF8F5] hover:bg-[#A7F3D0] p-3 text-xs md:text-sm text-left flex items-center gap-2">
+                            <span>☀️</span>
+                            <div class="text-left">
+                                <div class="font-bold">나른한 오후</div>
+                                <div class="text-[10px] text-gray-500">한적하게 여유 만끽할 때</div>
+                            </div>
+                        </button>
+                        <button onclick="selectStage('rain')" class="stage-btn pixel-btn bg-[#FAF8F5] hover:bg-[#A7F3D0] p-3 text-xs md:text-sm text-left flex items-center gap-2">
+                            <span>☔</span>
+                            <div class="text-left">
+                                <div class="font-bold">비 오는 고요한 밤</div>
+                                <div class="text-[10px] text-gray-500">차분하고 센치한 분위기</div>
+                            </div>
+                        </button>
+                        <button onclick="selectStage('focus')" class="stage-btn pixel-btn bg-[#FAF8F5] hover:bg-[#A7F3D0] p-3 text-xs md:text-sm text-left flex items-center gap-2">
+                            <span>🔥</span>
+                            <div class="text-left">
+                                <div class="font-bold">몰입 & 열공 모드</div>
+                                <div class="text-[10px] text-gray-500">집중력 극대화가 필요할 때</div>
+                            </div>
+                        </button>
+                        <button onclick="selectStage('depressed')" class="stage-btn pixel-btn bg-[#FAF8F5] hover:bg-[#A7F3D0] p-3 text-xs md:text-sm text-left flex items-center gap-2">
+                            <span>🌧️</span>
+                            <div class="text-left">
+                                <div class="font-bold">당 보충이 고플 때</div>
+                                <div class="text-[10px] text-gray-500">기분 전환 리프레시 충전</div>
+                            </div>
+                        </button>
+                    </div>
+
+                    <!-- 가챠 작동용 큰 코인 투입 버튼 (처음엔 비활성화) -->
+                    <div class="pt-2">
+                        <button id="gachaTriggerBtn" onclick="runArcadeGacha()" disabled class="w-full pixel-btn bg-red-500 hover:bg-red-400 text-white font-extrabold text-lg py-4 tracking-widest disabled:bg-gray-600 disabled:text-gray-400 disabled:cursor-not-allowed">
+                            INSERT COIN & PRESS START (GO)
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 5. RETRO FOOTER -->
+    <footer class="bg-[#1A1D20] text-gray-400 py-16 px-4 border-t-4 border-[#1A1D20]">
+        <div class="max-w-4xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+            
+            <div class="space-y-2 text-center md:text-left">
+                <div class="text-[#52D3A2] text-xl font-black tracking-widest">
+                    👾 DAYIN'S PLAYGROUND 👾
+                </div>
+                <p class="text-xs text-gray-500">본 사이트는 지인과의 친목 및 아이스브레이킹 목적의 비영리 아카이브 공간입니다.</p>
+            </div>
+
+            <!-- 소셜 / 교류용 문구 링크 -->
+            <div class="flex flex-col items-center md:items-end gap-2 text-xs">
+                <span>"이 추천이 마음에 드셨다면 다인에게 먼저 대화를 걸어 보세요!"</span>
+                <span class="text-yellow-400 font-bold">HAPPY CHATTING WITH DAIN ☕</span>
+            </div>
+
+        </div>
+        <div class="max-w-4xl mx-auto border-t border-gray-800 mt-8 pt-8 text-center text-[10px] text-gray-600">
+            © 2026 DAIN'S TASTE ARCADE. ALL RIGHTS RESERVED. POWERED BY 8-BIT VANILLA FRONTEND JS ENGINE.
+        </div>
+    </footer>
+
+    <!-- --- 자바스크립트 로직 영역 --- -->
+    <script>
+        // --- 8비트 오디오 합성 엔진 (Web Audio API) ---
+        let audioCtx = null;
+        let isMuted = false;
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        // 특정 주파수와 지속시간으로 8비트 효과음 출력 함수
+        function playBleep(frequency, type, duration, delay = 0) {
+            if (isMuted) return;
+            initAudio();
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+
+            setTimeout(() => {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                
+                osc.type = type; // 'square' (기본 복고풍 소리) 또는 'triangle', 'sawtooth'
+                osc.frequency.setValueAtTime(frequency, audioCtx.currentTime);
+                
+                gain.gain.setValueAtTime(0.08, audioCtx.currentTime); // 볼륨 작게 조절
+                gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+                
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            }, delay);
+        }
+
+        // 효과음 메들리 라이브러리
+        function soundSelect() {
+            playBleep(523.25, 'square', 0.08); // C5 단음
+        }
+
+        function soundCoinInsert() {
+            playBleep(329.63, 'square', 0.1); // E5
+            playBleep(440.00, 'square', 0.1, 80); // A5
+            playBleep(523.25, 'square', 0.2, 160); // C6
+        }
+
+        function soundSpin() {
+            playBleep(293.66, 'square', 0.05);
+            playBleep(349.23, 'square', 0.05, 50);
+            playBleep(415.30, 'square', 0.05, 100);
+        }
+
+        function soundSuccess() {
+            const notes = [523.25, 659.25, 783.99, 1046.50]; // 도-미-솔-도 아르페지오
+            notes.forEach((freq, idx) => {
+                playBleep(freq, 'triangle', 0.15, idx * 100);
+            });
+            // 짜잔! 하는 복고풍 피치밴드 추가
+            setTimeout(() => {
+                playBleep(1318.51, 'square', 0.4);
+            }, 400);
+        }
+
+        // 사운드 음소거 컨트롤 토글
+        function toggleMute() {
+            isMuted = !isMuted;
+            const soundIcon = document.getElementById('soundIcon');
+            const soundText = document.getElementById('soundText');
+            const soundToggle = document.getElementById('soundToggle');
+
+            if (isMuted) {
+                soundIcon.innerText = "🔇";
+                soundText.innerText = "SOUND OFF";
+                soundToggle.classList.replace('bg-yellow-300', 'bg-gray-400');
+            } else {
+                soundIcon.innerText = "🔊";
+                soundText.innerText = "SOUND ON";
+                soundToggle.classList.replace('bg-gray-400', 'bg-yellow-300');
+                initAudio();
+                soundSelect();
+            }
+        }
+
+        // 스크롤 이벤트 도우미
+        function scrollToCabinet() {
+            document.getElementById('arcade-cabinet-section').scrollIntoView({ behavior: 'smooth' });
+            soundSelect();
+        }
+
+        // --- 가챠용 커스텀 데이터베이스 ---
+        const tasteDatabase = {
+            rest: {
+                music: { title: "새소년 - '긴 꿈'", desc: "나른한 햇살 필터 아래 걷는 듯한 멜랑콜리 인디 팝" },
+                sweets: { title: "🍓 폭신폭신 딸기 수플레 팬케이크", desc: "도톰한 구름 식감 위에 연유와 딸기가 듬뿍" },
+                walk: { title: "경의선 숲길 (공덕-대흥 구간)", desc: "키 큰 수풀 사이를 관통하는 오솔길, 주변 아담한 에스프레소 바 포함" }
+            },
+            rain: {
+                music: { title: "Chet Baker - 'I Fall In Love Too Easily'", desc: "비 오는 유리창 앞, 재즈 트럼펫의 정수를 느낄 수 있는 블루스" },
+                sweets: { title: "🍫 시나몬 스파이스 핫초코 & 오트 쿠키", desc: "묵직하고 녹진한 초코에 시나몬 스틱 향이 어우러진 맛" },
+                walk: { title: "성북동 한옥 카페거리 골목길", desc: "돌담에 떨어지는 빗소리를 가만히 우산 속에 담으며 걷기 좋은 곳" }
+            },
+            focus: {
+                music: { title: "지브리 재즈 힙합 몰입용 컴필레이션", desc: "가사 없이 가볍게 비트를 타며 몰입도를 200% 올려주는 브금" },
+                sweets: { title: "☕ 무설탕 얼그레이 휘낭시에 & 콜드브루", desc: "손이 끈적이지 않으면서 향은 가득 머무는 깔끔한 작업 메이트" },
+                walk: { title: "정독도서관 정원 외곽 돌담 산책로", desc: "바스락거리는 마른 낙엽이나 가로수 아래에서 잠시 머리 식히기 좋은 단절된 길" }
+            },
+            depressed: {
+                music: { title: "Peppertones - '행운을 빌어요'", desc: "들으면 발걸음 속도가 자동 1.5배 빨라지는 에너지 드링크 같은 명곡" },
+                sweets: { title: "🍋 달콤 쌉싸름한 시칠리아 레몬 소르베", desc: "지루하고 처진 기분을 단 한 입으로 반전시켜 주는 극강의 상큼함" },
+                walk: { title: "뚝섬유원지 한강공원 수변길 서쪽", desc: "뻥 뚫린 한강 너머로 불어오는 센 강바람을 맞으며 기분을 비우고 돌아오는 경로" }
+            }
+        };
+
+        let selectedStageKey = null;
+
+        // 스테이지 선택 시 로직
+        function selectStage(stageKey) {
+            selectedStageKey = stageKey;
+            soundSelect();
+
+            // 모든 버튼 디자인 환원 후 활성화 스타일 부여
+            const stageButtons = document.querySelectorAll('.stage-btn');
+            stageButtons.forEach(btn => {
+                btn.classList.remove('bg-[#52D3A2]', 'text-black');
+                btn.classList.add('bg-[#FAF8F5]', 'text-[#1A1D20]');
+            });
+
+            // 현재 탭 선택 표시
+            event.currentTarget.classList.add('bg-[#52D3A2]', 'text-black');
+
+            // 화면 가이드 변경
+            const screenPrompt = document.getElementById('screenPrompt');
+            const currentStageText = document.getElementById('currentStageText');
+            const triggerBtn = document.getElementById('gachaTriggerBtn');
+            const characterAvatar = document.getElementById('characterAvatar');
+
+            let stageTitle = "";
+            switch (stageKey) {
+                case 'rest': stageTitle = "STAGE: 나른한 오후 ☀️"; characterAvatar.innerText = "😎"; break;
+                case 'rain': stageTitle = "STAGE: 비 오는 고요한 밤 ☔"; characterAvatar.innerText = "☕"; break;
+                case 'focus': stageTitle = "STAGE: 몰입 & 열공 모드 🔥"; characterAvatar.innerText = "💻"; break;
+                case 'depressed': stageTitle = "STAGE: 당 보충 & 리프레시 🌧️"; characterAvatar.innerText = "🔋"; break;
+            }
+
+            currentStageText.innerText = stageTitle;
+            screenPrompt.innerHTML = `정밀 데이터 타겟팅 세팅 완료!<br><br><span class='text-yellow-300 font-bold'>"${stageTitle}"</span> 분위기에 특화된 큐레이션 기계를 작동할 준비가 되었습니다. 아래 붉은색 버튼을 눌러 슬롯을 돌려주세요!`;
+            
+            triggerBtn.innerText = "슬롯 머신 스타트! (GO)";
+            triggerBtn.removeAttribute('disabled');
+        }
+
+        // 가챠 회전 애니메이션 실행 및 사운드 동기화
+        function runArcadeGacha() {
+            if (!selectedStageKey) return;
+            
+            soundCoinInsert();
+
+            // 엘리먼트 세팅
+            const screenContent = document.getElementById('screenContent');
+            const slotReelContainer = document.getElementById('slotReelContainer');
+            const resultsOverlay = document.getElementById('resultsOverlay');
+            const stageButtonGroup = document.getElementById('stageButtonGroup');
+            const triggerBtn = document.getElementById('gachaTriggerBtn');
+
+            // 인터렉션 중 조작 잠금
+            screenContent.classList.add('hidden');
+            resultsOverlay.classList.add('hidden');
+            slotReelContainer.classList.remove('hidden');
+            triggerBtn.setAttribute('disabled', 'true');
+            triggerBtn.innerText = "시스템 분석 및 추출 진행 중...";
+            
+            // 모든 스테이지 선택기 비활성화
+            const stageButtons = document.querySelectorAll('.stage-btn');
+            stageButtons.forEach(btn => btn.setAttribute('disabled', 'true'));
+
+            // 룰렛 효과 연출용 이모지 배열
+            const musicEmojis = ["🎵", "🎹", "🎧", "🎸", "🎻"];
+            const dessertEmojis = ["🍰", "🍓", "🍫", "🍩", "🍋", "🧁"];
+            const walkEmojis = ["🌳", "🚶‍♀️", "🧭", "🌇", "🚲", "🗺️"];
+
+            let spinInterval = setInterval(() => {
+                soundSpin();
+                document.getElementById('reelMusic').innerText = musicEmojis[Math.floor(Math.random() * musicEmojis.length)];
+                document.getElementById('reelDessert').innerText = dessertEmojis[Math.floor(Math.random() * dessertEmojis.length)];
+                document.getElementById('reelWalk').innerText = walkEmojis[Math.floor(Math.random() * walkEmojis.length)];
+            }, 100);
+
+            // 약 2.5초간 가챠가 돌아간 후 결과 추출
+            setTimeout(() => {
+                clearInterval(spinInterval);
+                soundSuccess();
+                
+                // 결과 노출
+                slotReelContainer.classList.add('hidden');
+                resultsOverlay.classList.remove('hidden');
+                
+                const resultData = tasteDatabase[selectedStageKey];
+                
+                document.getElementById('resMusicTitle').innerText = resultData.music.title;
+                document.getElementById('resMusicDesc').innerText = resultData.music.desc;
+                
+                document.getElementById('resSweetsTitle').innerText = resultData.sweets.title;
+                document.getElementById('resSweetsDesc').innerText = resultData.sweets.desc;
+                
+                document.getElementById('resWalkTitle').innerText = resultData.walk.title;
+                document.getElementById('resWalkDesc').innerText = resultData.walk.desc;
+
+                triggerBtn.innerText = "큐레이션 추출 완료!";
+            }, 2200);
+        }
+
+        // 아케이드 기계 초기화
+        function resetArcade() {
+            soundSelect();
+            selectedStageKey = null;
+
+            // 스테이지 리셋
+            document.getElementById('currentStageText').innerText = "STAGE SELECTING";
+            document.getElementById('characterAvatar').innerText = "🤖";
+            document.getElementById('screenPrompt').innerHTML = '"반가워요! 기계 아랫단에서 어울리는 오늘의 상태 혹은 상황 스테이지를 탭해서 세팅을 완료해 주세요!"';
+            
+            // UI 숨김 제어 복원
+            document.getElementById('screenContent').classList.remove('hidden');
+            document.getElementById('slotReelContainer').classList.add('hidden');
+            document.getElementById('resultsOverlay').classList.add('hidden');
+            
+            // 버튼들 복구
+            const stageButtons = document.querySelectorAll('.stage-btn');
+            stageButtons.forEach(btn => {
+                btn.removeAttribute('disabled');
+                btn.classList.remove('bg-[#52D3A2]', 'text-black');
+                btn.classList.add('bg-[#FAF8F5]', 'text-[#1A1D20]');
+            });
+
+            const triggerBtn = document.getElementById('gachaTriggerBtn');
+            triggerBtn.setAttribute('disabled', 'true');
+            triggerBtn.innerText = "상황을 먼저 선택해주세요!";
+        }
+
+        // 결과 텍스트 클립보드 복사 기능 (대화 아이스브레이킹 목적)
+        function copyToClipboard() {
+            if (!selectedStageKey) return;
+            soundSelect();
+
+            const data = tasteDatabase[selectedStageKey];
+            let stageKorean = "";
+            if (selectedStageKey === 'rest') stageKorean = "나른한 오후 ☀️";
+            if (selectedStageKey === 'rain') stageKorean = "비 오는 고요한 밤 ☔";
+            if (selectedStageKey === 'focus') stageKorean = "몰입 & 열공 모드 🔥";
+            if (selectedStageKey === 'depressed') stageKorean = "당 보충 & 리프레시 🌧️";
+
+            const copyText = `👾 [다인의 취향 아케이드] 결과 기록지 👾\n\n내가 고른 오늘 상태: "${stageKorean}"\n\n🎵 다인의 추천 음악: ${data.music.title} (${data.music.desc})\n🍰 다인의 추천 디저트: ${data.sweets.title} (${data.sweets.desc})\n🌳 다인의 추천 비밀 산책로: ${data.walk.title} (${data.walk.desc})\n\n이 결과와 취향에 대해 이야기 나눠볼래요? 😊`;
+
+            // 크로스 브라우징 클립보드 복사 기법 적용
+            const tempTextArea = document.createElement("textarea");
+            tempTextArea.value = copyText;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    showToastNotification("📋 결과 기록이 복사되었습니다! 카톡으로 대화를 건네 보세요!");
+                } else {
+                    showToastNotification("복사 실패. 수동 복사를 부탁드립니다.");
+                }
+            } catch (err) {
+                showToastNotification("복사 실패. 수동 복사를 부탁드립니다.");
+            }
+            
+            document.body.removeChild(tempTextArea);
+        }
+
+        // 복사 알림용 커스텀 토스트 알림 (UI 일관성 유지)
+        function showToastNotification(message) {
+            const toast = document.createElement('div');
+            toast.className = 'fixed bottom-8 left-1/2 transform -translate-x-1/2 pixel-border bg-[#1A1D20] text-[#52D3A2] px-6 py-3 text-xs md:text-sm font-bold z-50 text-center shadow-2xl';
+            toast.innerText = message;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.transition = 'opacity 0.5s ease';
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 500);
+            }, 3500);
+        }
+    </script>
+</body>
+</html>
